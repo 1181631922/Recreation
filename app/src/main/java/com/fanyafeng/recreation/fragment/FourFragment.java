@@ -27,6 +27,7 @@ public class FourFragment extends BaseFragment {
     private RelativeLayout layoutVideo;
     private RelativeLayout layoutBarCode;
     private RelativeLayout layoutCreateBarCode;
+    private RelativeLayout layoutOpenFile;
 
     public FourFragment() {
         // Required empty public constructor
@@ -65,6 +66,9 @@ public class FourFragment extends BaseFragment {
         layoutCreateBarCode = (RelativeLayout) getActivity().findViewById(R.id.layoutCreateBarCode);
         layoutCreateBarCode.setOnClickListener(this);
 
+        layoutOpenFile = (RelativeLayout) getActivity().findViewById(R.id.layoutOpenFile);
+        layoutOpenFile.setOnClickListener(this);
+
         getActivity().findViewById(R.id.tvLogin).setOnClickListener(this);
     }
 
@@ -87,9 +91,9 @@ public class FourFragment extends BaseFragment {
                 break;
             case R.id.layoutCreateBarCode://生成二维码
                 startActivity(new Intent(getActivity(), CreateCodeActivity.class));
-//                Intent intent = new Intent(getActivity(), CreateCodeActivity.class);
-//                intent.putExtra("codeMessage", "这是获取的codemessage");
-//                startActivity(intent);
+                break;
+            case R.id.layoutOpenFile:
+                startActivity(new Intent(getActivity(), FileExplorerActivity.class));
                 break;
         }
     }

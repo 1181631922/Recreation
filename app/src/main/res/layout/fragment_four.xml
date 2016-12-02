@@ -187,6 +187,43 @@
                     android:layout_height="0.43dp"
                     android:background="@android:color/darker_gray" />
 
+                <RelativeLayout
+                    android:id="@+id/layoutOpenFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/layout_clickable"
+                    android:clickable="true">
+
+                    <ImageView
+                        android:id="@+id/imageViewFile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="13dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/personal_file" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="32dp"
+                        android:layout_toRightOf="@+id/imageViewFile"
+                        android:gravity="center_vertical"
+                        android:text="文件浏览" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="36dp"
+                        android:src="@drawable/personal_arrow" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.43dp"
+                    android:background="@android:color/darker_gray" />
+
                 <TextView
                     android:id="@+id/tvLogin"
                     android:layout_width="match_parent"
