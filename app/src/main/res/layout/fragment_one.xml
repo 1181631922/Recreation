@@ -38,6 +38,16 @@
 
         </android.support.design.widget.AppBarLayout>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabMainToTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="18dp"
+            android:backgroundTint="@color/sbc_header_text"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:src="@drawable/main_to_top" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

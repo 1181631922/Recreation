@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +43,8 @@ public class OneFragment extends BaseFragment {
     private XRefreshView refreshMain;
     private List<MainItemBean> mainItemBeanList = new ArrayList<>();
     private MainAdapter mainAdapter;
+
+    private FloatingActionButton fabMainToTop;
 
     private int rqcnt = 18;
     private int page = 1;
@@ -81,6 +84,8 @@ public class OneFragment extends BaseFragment {
         refreshMain = (XRefreshView) getActivity().findViewById(R.id.refreshMain);
         refreshMain.setPullLoadEnable(true);
         refreshMain.setAutoLoadMore(true);
+
+        fabMainToTop = (FloatingActionButton) getActivity().findViewById(R.id.fabMainToTop);
     }
 
     private void initData() {
@@ -110,6 +115,20 @@ public class OneFragment extends BaseFragment {
                         loadMoreData();
                     }
                 }, 1000);
+            }
+        });
+
+        fabMainToTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mainItemBeanList.size() > 0)
+                            rvMain.smoothScrollToPosition(0);
+                    }
+                }, 200);
+
             }
         });
     }

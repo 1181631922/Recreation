@@ -84,6 +84,7 @@ public class MainActivity extends BaseActivity {
 
     //初始化UI空间
     private void initView() {
+
         tabs[0] = findViewById(R.id.tab_one);
         tab_img1 = (ImageView) findViewById(R.id.tab_img1);
         tab_text1 = (TextView) findViewById(R.id.tab_text1);
@@ -229,7 +230,6 @@ public class MainActivity extends BaseActivity {
 
     //初始化数据
     private void initData() {
-
     }
 
 }

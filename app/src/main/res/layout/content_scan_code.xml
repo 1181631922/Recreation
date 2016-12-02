@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,12 +8,29 @@
     tools:context="com.fanyafeng.recreation.activity.ScanCodeActivity"
     tools:showIn="@layout/activity_scan_code">
 
-    <!--需要v4或者v7包，不过一般as创建的工程都默认存在,此处采用滑动嵌套布局，为了解决滑动冲突-->
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvScanHistory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvScanResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="email|phone|web"
+        android:hint="解析结果:"
+        android:lineSpacingMultiplier="1.3"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp" />
+
+    <WebView
+        android:id="@+id/wvScanDetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvScanResult" />
 
 
-    </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</RelativeLayout>
