@@ -1,6 +1,7 @@
 package com.fanyafeng.recreation.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fanyafeng.recreation.R;
+import com.fanyafeng.recreation.activity.PreviewActivity;
 import com.fanyafeng.recreation.bean.MainItemBean;
 import com.fanyafeng.recreation.network.Urls;
 import com.fanyafeng.recreation.refreshview.recyclerview.BaseRecyclerAdapter;
@@ -17,6 +19,7 @@ import com.fanyafeng.recreation.util.DpPxConvert;
 import com.fanyafeng.recreation.util.MyUtils;
 import com.fanyafeng.recreation.util.StringUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,13 +51,23 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
     @Override
     public void onBindViewHolder(MainViewHolder holder, int position, boolean isItem) {
         MainViewHolder mainViewHolder = holder;
-        MainItemBean mainItemBean = mainItemBeanList.get(position);
+        final MainItemBean mainItemBean = mainItemBeanList.get(position);
         mainViewHolder.tvMainItem.setText(mainItemBean.getContent());
         if (!StringUtil.isNullOrEmpty(mainItemBean.getImage()) && !mainItemBean.getImage().equalsIgnoreCase("null")) {
             mainViewHolder.sdvMainItem.setVisibility(View.VISIBLE);
-            String img = Urls.PICTURE_ITEM + String.valueOf(mainItemBean.getId()).substring(0, 5) + "/" + mainItemBean.getId() + "/medium/";
+            final String img = Urls.PICTURE_ITEM + String.valueOf(mainItemBean.getId()).substring(0, 5) + "/" + mainItemBean.getId() + "/medium/";
             ControllerListenerUtil.setControllerListener(mainViewHolder.sdvMainItem, img + mainItemBean.getImage(),
                     (int) (MyUtils.getScreenWidth(context) - DpPxConvert.dip2px(context, 60)));
+            mainViewHolder.sdvMainItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ArrayList<String> list = new ArrayList<String>();
+                    list.add(img + mainItemBean.getImage());
+                    Intent intent = new Intent(context, PreviewActivity.class);
+                    intent.putStringArrayListExtra("list", list);
+                    context.startActivity(intent);
+                }
+            });
         } else {
             mainViewHolder.sdvMainItem.setVisibility(View.GONE);
         }

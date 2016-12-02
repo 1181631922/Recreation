@@ -103,4 +103,5 @@
 
     <string name="title_activity_scan_code">扫码</string>
     <string name="title_activity_create_code">生成二维码</string>
+    <string name="title_activity_preview">查看图片</string>
 </resources>
