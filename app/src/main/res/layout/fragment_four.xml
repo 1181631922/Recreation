@@ -5,9 +5,206 @@
     android:background="@android:color/white"
     tools:context="com.fanyafeng.recreation.fragment.FourFragment">
 
-    <TextView
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="444444444" />
+        android:fitsSystemWindows="false"
+        tools:context="com.fanyafeng.recreation.activity.MainActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdvPersonal"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:src="@drawable/simle_logo_03" />
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar_four"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                    <!--字号可以自定义，这里默认16dp-->
+                    <TextView
+                        android:id="@+id/toolbar_center_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/activity_horizontal_margin" />
+                </android.support.v7.widget.Toolbar>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/fab_margin"
+            android:clickable="true"
+            android:src="@android:drawable/ic_dialog_email"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:layout_anchor="@id/appbar"
+            app:layout_anchorGravity="bottom|right|end" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/layoutVideo"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/layout_clickable"
+                    android:clickable="true">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="13dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/personal_video" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="32dp"
+                        android:layout_toRightOf="@+id/imageView"
+                        android:gravity="center_vertical"
+                        android:text="播放视频(本地)" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="36dp"
+                        android:src="@drawable/personal_arrow" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.43dp"
+                    android:background="@android:color/darker_gray" />
+
+                <RelativeLayout
+                    android:id="@+id/layoutBarCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/layout_clickable"
+                    android:clickable="true">
+
+                    <ImageView
+                        android:id="@+id/imageViewBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="13dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/personal_barcode" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="32dp"
+                        android:layout_toRightOf="@+id/imageViewBar"
+                        android:gravity="center_vertical"
+                        android:text="扫码" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="36dp"
+                        android:src="@drawable/personal_arrow" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.43dp"
+                    android:background="@android:color/darker_gray" />
+
+                <RelativeLayout
+                    android:id="@+id/layoutCreateBarCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/layout_clickable"
+                    android:clickable="true">
+
+                    <ImageView
+                        android:id="@+id/imageViewBarCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="13dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/personal_create_barcode" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="32dp"
+                        android:layout_toRightOf="@+id/imageViewBarCode"
+                        android:gravity="center_vertical"
+                        android:text="生成二维码" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="36dp"
+                        android:src="@drawable/personal_arrow" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.43dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/tvLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="444444444" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:text="444444444" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:text="444444444" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </FrameLayout>

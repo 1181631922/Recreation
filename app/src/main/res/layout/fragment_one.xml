@@ -5,9 +5,58 @@
     android:background="@android:color/white"
     tools:context="com.fanyafeng.recreation.fragment.OneFragment">
 
-    <TextView
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="11111111" />
+        android:fitsSystemWindows="false"
+        tools:context="com.fanyafeng.recreation.activity.MainActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_one"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <!--字号可以自定义，这里默认16dp-->
+                <TextView
+                    android:id="@+id/toolbar_center_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/activity_horizontal_margin" />
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.fanyafeng.recreation.refreshview.XRefreshView
+                android:id="@+id/refreshMain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvMain"
+                    android:layout_width="match_parent"
+                    android:background="#D3D3D3"
+                    android:layout_height="match_parent" />
+            </com.fanyafeng.recreation.refreshview.XRefreshView>
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </FrameLayout>

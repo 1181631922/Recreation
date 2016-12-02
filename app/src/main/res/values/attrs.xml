@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="entrySummaries" format="reference" />
+
+    <declare-styleable name="IjkListPreference">
+        <attr name="entrySummaries" />
+    </declare-styleable>
+
+    <declare-styleable name="XRefreshView">
+        <attr name="isHeightMatchParent" format="boolean" />
+        <attr name="isWidthMatchParent" format="boolean" />
+        <attr name="autoRefresh" format="boolean" />
+        <attr name="autoLoadMore" format="boolean" />
+    </declare-styleable>
+</resources>

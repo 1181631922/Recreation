@@ -17,7 +17,7 @@ import com.fanyafeng.recreation.R;
  * Use the {@link BaseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment implements View.OnClickListener{
 
     public BaseFragment() {
         // Required empty public constructor
@@ -58,4 +58,8 @@ public class BaseFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onClick(View view) {
+
+    }
 }

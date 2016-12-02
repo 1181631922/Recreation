@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity {
 
         title = getString(R.string.app_name);
         isSetLogo = true;
+        isShowToolbar = false;
         isSetNavigationIcon = false;
 
 
