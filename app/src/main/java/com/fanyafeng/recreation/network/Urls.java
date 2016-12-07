@@ -28,4 +28,7 @@ public class Urls {
     public final static String PICTURE_ITEM = "http://pic.qiushibaike.com/system/pictures/";
 //    11793/117936574/medium/";
 
+    //    音悦台打榜
+    public final static String GET_TOP_VIDEO_LIST = "http://mapiv2.yinyuetai.com/vchart/trend.json?&area=ML&offset=0&size=20";
+
 }

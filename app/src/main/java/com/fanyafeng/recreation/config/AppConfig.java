@@ -6,6 +6,8 @@ import android.util.DisplayMetrics;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.fanyafeng.recreation.zxing.DisplayUtil;
 
+import org.litepal.LitePal;
+
 /**
  * Author： fanyafeng
  * Data： 16/10/26 19:16
@@ -17,6 +19,7 @@ public class AppConfig extends Application {
     public void onCreate() {
         super.onCreate();
         Fresco.initialize(getApplicationContext(), FrescoConfig.getsImagePipelineConfig(this));
+        LitePal.initialize(getApplicationContext());
         initDisplayOpinion();
     }
 

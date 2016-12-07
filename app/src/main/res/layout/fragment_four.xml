@@ -61,7 +61,7 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/fab_margin"
             android:clickable="true"
-            android:src="@android:drawable/ic_dialog_email"
+            android:src="@drawable/personal_send"
             app:backgroundTint="@color/colorPrimaryDark"
             app:layout_anchor="@id/appbar"
             app:layout_anchorGravity="bottom|right|end" />
@@ -224,21 +224,81 @@
                     android:layout_height="0.43dp"
                     android:background="@android:color/darker_gray" />
 
-                <TextView
-                    android:id="@+id/tvLogin"
+                <RelativeLayout
+                    android:id="@+id/layoutNote"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:text="444444444" />
+                    android:background="@drawable/layout_clickable"
+                    android:clickable="true">
+
+                    <ImageView
+                        android:id="@+id/imageNote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="13dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/personal_note" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="32dp"
+                        android:layout_toRightOf="@+id/imageNote"
+                        android:gravity="center_vertical"
+                        android:text="备忘录" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="36dp"
+                        android:src="@drawable/personal_arrow" />
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:text="444444444" />
+                    android:layout_height="0.43dp"
+                    android:background="@android:color/darker_gray" />
+
+                <RelativeLayout
+                    android:id="@+id/layoutWeather"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/layout_clickable"
+                    android:clickable="true">
+
+                    <ImageView
+                        android:id="@+id/imageWeather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="13dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/personal_weather" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="32dp"
+                        android:layout_toRightOf="@+id/imageWeather"
+                        android:gravity="center_vertical"
+                        android:text="天气查询" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="36dp"
+                        android:src="@drawable/personal_arrow" />
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:text="444444444" />
+                    android:layout_height="0.43dp"
+                    android:background="@android:color/darker_gray" />
+
+
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

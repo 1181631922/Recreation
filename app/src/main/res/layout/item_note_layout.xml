@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/tvNoteLine"
+            android:layout_width="0.43dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="18dp"
+            android:background="@color/grgray" />
+
+        <TextView
+            android:id="@+id/tvNoteTitle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/ivNoteIcon"
+            android:layout_toRightOf="@+id/tvNoteLine"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="这是标题"
+            android:textColor="@android:color/black"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:id="@+id/ivNoteIcon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dp"
+            android:src="@drawable/icon_picture" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvItemLine"
+        android:layout_width="match_parent"
+        android:layout_height="0.43dp"
+        android:background="@color/grgray" />
+</LinearLayout>

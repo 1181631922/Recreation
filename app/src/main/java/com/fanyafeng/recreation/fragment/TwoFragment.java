@@ -2,15 +2,28 @@ package com.fanyafeng.recreation.fragment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.fanyafeng.recreation.R;
+import com.fanyafeng.recreation.bean.MainItemBean;
+import com.fanyafeng.recreation.network.NetUtil;
+import com.fanyafeng.recreation.network.Urls;
+import com.fanyafeng.recreation.util.StringUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Random;
 
 public class TwoFragment extends BaseFragment {
     private static final String ARG_PARAM1 = "param1";
@@ -64,6 +77,33 @@ public class TwoFragment extends BaseFragment {
     }
 
     private void initData() {
+        new AsyncTask<String, String, String>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
 
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                try {
+                    if (!StringUtil.isNullOrEmpty(s)) {
+                        JSONObject jsonObject = new JSONObject(s);
+                        if (jsonObject != null) {
+                            Log.d("音悦台数据：", jsonObject.toString());
+                        }
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                return NetUtil.httpGetUtil(getActivity(), Urls.GET_TOP_VIDEO_LIST);
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

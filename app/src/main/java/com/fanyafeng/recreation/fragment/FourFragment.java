@@ -17,8 +17,11 @@ import com.fanyafeng.recreation.R;
 import com.fanyafeng.recreation.activity.CreateCodeActivity;
 import com.fanyafeng.recreation.activity.FileExplorerActivity;
 import com.fanyafeng.recreation.activity.LoginActivity;
+import com.fanyafeng.recreation.activity.NoteActivity;
 import com.fanyafeng.recreation.activity.PlayVideoActivity;
 import com.fanyafeng.recreation.activity.ScanCodeActivity;
+import com.fanyafeng.recreation.util.FrescoDealPicUtil;
+import com.fanyafeng.recreation.util.FrescoUtil;
 
 public class FourFragment extends BaseFragment {
 
@@ -28,6 +31,7 @@ public class FourFragment extends BaseFragment {
     private RelativeLayout layoutBarCode;
     private RelativeLayout layoutCreateBarCode;
     private RelativeLayout layoutOpenFile;
+    private RelativeLayout layoutNote;
 
     public FourFragment() {
         // Required empty public constructor
@@ -54,8 +58,10 @@ public class FourFragment extends BaseFragment {
     private void initView() {
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_four);
         toolbar.setTitle("个人");
+        toolbar.setLogo(R.drawable.simle_logo_04);
 
         sdvPersonal = (SimpleDraweeView) getActivity().findViewById(R.id.sdvPersonal);
+        FrescoUtil.loadPicOnNet(sdvPersonal, "http://news.mydrivers.com/img/20141111/aced68582b904db8a876ea21ffe15ca6.jpg");
 
         layoutVideo = (RelativeLayout) getActivity().findViewById(R.id.layoutVideo);
         layoutVideo.setOnClickListener(this);
@@ -69,7 +75,9 @@ public class FourFragment extends BaseFragment {
         layoutOpenFile = (RelativeLayout) getActivity().findViewById(R.id.layoutOpenFile);
         layoutOpenFile.setOnClickListener(this);
 
-        getActivity().findViewById(R.id.tvLogin).setOnClickListener(this);
+        layoutNote = (RelativeLayout) getActivity().findViewById(R.id.layoutNote);
+        layoutNote.setOnClickListener(this);
+
     }
 
     private void initData() {
@@ -83,9 +91,6 @@ public class FourFragment extends BaseFragment {
             case R.id.layoutVideo:
                 startActivity(new Intent(getActivity(), FileExplorerActivity.class));
                 break;
-            case R.id.tvLogin:
-                startActivity(new Intent(getActivity(), PlayVideoActivity.class));
-                break;
             case R.id.layoutBarCode://扫码
                 startActivity(new Intent(getActivity(), ScanCodeActivity.class));
                 break;
@@ -94,6 +99,9 @@ public class FourFragment extends BaseFragment {
                 break;
             case R.id.layoutOpenFile:
                 startActivity(new Intent(getActivity(), FileExplorerActivity.class));
+                break;
+            case R.id.layoutNote:
+                startActivity(new Intent(getActivity(), NoteActivity.class));
                 break;
         }
     }

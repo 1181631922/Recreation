@@ -68,6 +68,16 @@
             android:name=".activity.PreviewActivity"
             android:label="@string/title_activity_preview"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.NoteActivity"
+            android:label="@string/title_activity_note"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.AddNoteActivity"
+            android:label="@string/title_activity_add_note"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
