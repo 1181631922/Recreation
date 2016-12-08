@@ -9,17 +9,16 @@ import org.litepal.crud.DataSupport;
  * Email: fanyafeng@live.cn
  */
 public class NoteImgData extends DataSupport {
-    @Column(unique = true)
-    private int id;
+    private NoteData noteData;
     private String imgUrl;
     private String imgDesc;
 
-    public int getId() {
-        return id;
+    public NoteData getNoteData() {
+        return noteData;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setNoteData(NoteData noteData) {
+        this.noteData = noteData;
     }
 
     public String getImgUrl() {
@@ -41,7 +40,7 @@ public class NoteImgData extends DataSupport {
     @Override
     public String toString() {
         return "NoteImgData{" +
-                "id=" + id +
+                "noteData=" + noteData +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", imgDesc='" + imgDesc + '\'' +
                 '}';

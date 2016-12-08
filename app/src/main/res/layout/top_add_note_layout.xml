@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <EditText
-        android:id="@+id/etAddNote"
+        android:id="@+id/etAddNoteTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:gravity="top"
-        android:padding="10dp" />
+        android:hint="请输入备忘录标题"
+        android:padding="10dp"
+        android:textSize="18dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.43dp"
+        android:background="@color/grgray" />
+
+    <EditText
+        android:id="@+id/etAddNoteDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:gravity="top"
+        android:hint="请输入备忘录内容"
+        android:padding="10dp"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="@color/grgray"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.43dp"
+        android:background="@color/grgray" />
 
 </LinearLayout>

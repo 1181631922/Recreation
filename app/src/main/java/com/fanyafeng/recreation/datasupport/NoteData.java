@@ -12,8 +12,6 @@ import java.util.List;
  * Email: fanyafeng@live.cn
  */
 public class NoteData extends DataSupport {
-    @Column(unique = true)
-    private int id;
     private boolean hasPic;
     private String title;
     private long createData;
@@ -21,14 +19,6 @@ public class NoteData extends DataSupport {
     private String desc;
     private String picUrl;
     private List<NoteImgData> noteImgDataList = new ArrayList<>();
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public boolean isHasPic() {
         return hasPic;
@@ -89,8 +79,7 @@ public class NoteData extends DataSupport {
     @Override
     public String toString() {
         return "NoteData{" +
-                "id=" + id +
-                ", hasPic=" + hasPic +
+                "hasPic=" + hasPic +
                 ", title='" + title + '\'' +
                 ", createData=" + createData +
                 ", titleHeader=" + titleHeader +

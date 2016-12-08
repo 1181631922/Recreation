@@ -52,7 +52,8 @@ public class AddNoteActivity extends BaseActivity {
     private LinearLayout layoutPicture;
     private RecyclerView rvAddNote;
     private View addNoteHeader;
-    private EditText etAddNote;
+    private EditText etAddNoteTitle;
+    private EditText etAddNoteDesc;
     private AddNoteAdapter addNoteAdapter;
     private List<String> imgList = new ArrayList<>();
 
@@ -85,7 +86,8 @@ public class AddNoteActivity extends BaseActivity {
 
         addNoteAdapter = new AddNoteAdapter(this, imgList);
         addNoteHeader = addNoteAdapter.setHeaderView(R.layout.top_add_note_layout, rvAddNote);
-        etAddNote = (EditText) addNoteHeader.findViewById(R.id.etAddNote);
+        etAddNoteTitle = (EditText) addNoteHeader.findViewById(R.id.etAddNoteTitle);
+        etAddNoteDesc = (EditText) addNoteHeader.findViewById(R.id.etAddNoteDesc);
         rvAddNote.setAdapter(addNoteAdapter);
     }
 
@@ -98,6 +100,8 @@ public class AddNoteActivity extends BaseActivity {
 
         tvNoteTime.setText(nowTime);
         noteData = new NoteData();
+        noteData.setCreateData(System.currentTimeMillis());
+        noteData.setTitleHeader(System.currentTimeMillis() / 1000 / 60 / 60 / 24);
     }
 
     @Override
@@ -152,6 +156,22 @@ public class AddNoteActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        fab.performClick();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fab.performClick();
+            }
+        });
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_base, menu);
         //        默认隐藏setting按钮
@@ -173,7 +193,18 @@ public class AddNoteActivity extends BaseActivity {
 
         switch (id) {
             case R.id.action_settings:
-
+                noteData.setTitle(etAddNoteTitle.getText().toString());
+                noteData.setDesc(etAddNoteDesc.getText().toString());
+                for (int i = 0; i < imgList.size(); i++) {
+                    NoteImgData noteImgData = new NoteImgData();
+                    noteImgData.setImgUrl(imgList.get(i));
+                    noteImgData.setNoteData(noteData);
+                    noteImgData.save();
+                    noteImgDataList.add(noteImgData);
+                }
+                noteData.setNoteImgDataList(noteImgDataList);
+                noteData.save();
+                finish();
                 break;
         }
 
