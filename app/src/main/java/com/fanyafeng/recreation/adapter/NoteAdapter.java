@@ -37,6 +37,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     public void onBindViewHolder(NoteViewHolder holder, int position) {
         NoteBean noteBean = noteBeanList.get(position);
         holder.tvNoteTitle.setText(noteBean.getTitle());
+        if (noteBean.isHasPic()) {
+            holder.ivNoteIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.ivNoteIcon.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -16,6 +16,9 @@ import com.fanyafeng.recreation.R;
 import com.fanyafeng.recreation.BaseActivity;
 import com.fanyafeng.recreation.adapter.NoteAdapter;
 import com.fanyafeng.recreation.bean.NoteBean;
+import com.fanyafeng.recreation.datasupport.NoteData;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +52,17 @@ public class NoteActivity extends BaseActivity {
 
     //初始化数据
     private void initData() {
-        for (int i = 0; i < 20; i++) {
+
+        List<NoteData> noteDataList = DataSupport.findAll(NoteData.class);
+        for (int i = 0; i < noteDataList.size(); i++) {
+            NoteData noteData = noteDataList.get(i);
             NoteBean noteBean = new NoteBean();
-            noteBean.setTitle("我就是标题" + i);
+            noteBean.setTitle(noteData.getTitle());
+            noteBean.setHasPic(noteData.isHasPic());
             noteBeanList.add(noteBean);
         }
+
+
         noteAdapter = new NoteAdapter(this, noteBeanList);
         rvNote.setAdapter(noteAdapter);
 
