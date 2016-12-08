@@ -203,7 +203,9 @@ public class AddNoteActivity extends BaseActivity {
                     noteImgDataList.add(noteImgData);
                 }
                 noteData.setNoteImgDataList(noteImgDataList);
+                noteData.setHasPic(!(noteImgDataList.size() == 0));
                 noteData.save();
+                Toast.makeText(this, "备忘录编辑成功", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
         }
