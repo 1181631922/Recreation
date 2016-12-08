@@ -126,6 +126,7 @@ public class AddNoteActivity extends BaseActivity {
             case R.id.layoutPicture://调用系统相册
                 Intent intentPicture = new Intent();
                 intentPicture.setAction(Intent.ACTION_PICK);
+//                intentPicture.setAction(Intent.ACTION_GET_CONTENT);7.0有问题
                 intentPicture.setType("image/*");
                 startActivityForResult(intentPicture, RESULT_PICTURE);
                 break;
@@ -139,12 +140,10 @@ public class AddNoteActivity extends BaseActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case RESULT_CAMERA:
-                    Toast.makeText(this, "获取的图片链接：" + cameraUri, Toast.LENGTH_SHORT).show();
                     imgList.add(cameraUri.toString());
                     addNoteAdapter.notifyDataSetChanged();
                     break;
                 case RESULT_PICTURE:
-                    Toast.makeText(this, "获取的图片链接：" + UriUtils.getPath(this, data.getData()), Toast.LENGTH_SHORT).show();
                     imgList.add("file://" + UriUtils.getPath(this, data.getData()));
                     addNoteAdapter.notifyDataSetChanged();
                     break;
