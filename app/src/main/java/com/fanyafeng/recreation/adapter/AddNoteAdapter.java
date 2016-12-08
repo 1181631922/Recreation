@@ -59,7 +59,7 @@ public class AddNoteAdapter extends BaseRecyclerAdapter<AddNoteAdapter.AddNoteVi
     public void onBindViewHolder(AddNoteViewHolder holder, final int position, boolean isItem) {
         final String img = imgList.get(position);
         ControllerListenerUtil.setControllerListener(holder.sdvAddItem, img,
-                (int) (MyUtils.getScreenWidth(context) - DpPxConvert.dip2px(context, 20)));
+                (int) (MyUtils.getScreenWidth(context)));
         holder.sdvAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

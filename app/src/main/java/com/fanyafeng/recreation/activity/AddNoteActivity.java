@@ -125,7 +125,7 @@ public class AddNoteActivity extends BaseActivity {
                 break;
             case R.id.layoutPicture://调用系统相册
                 Intent intentPicture = new Intent();
-                intentPicture.setAction(Intent.ACTION_GET_CONTENT);
+                intentPicture.setAction(Intent.ACTION_PICK);
                 intentPicture.setType("image/*");
                 startActivityForResult(intentPicture, RESULT_PICTURE);
                 break;
