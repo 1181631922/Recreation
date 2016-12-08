@@ -31,6 +31,8 @@ import com.fanyafeng.recreation.util.DpPxConvert;
 import com.fanyafeng.recreation.util.MyUtils;
 import com.fanyafeng.recreation.util.UriUtils;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,12 +62,19 @@ public class AddNoteActivity extends BaseActivity {
     private NoteData noteData;
     private List<NoteImgData> noteImgDataList = new ArrayList<>();
 
+    private long noteDataId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         //这里默认使用的是toolbar的左上角标题，如果需要使用的标题为中心的采用下方注释的代码，将此注释掉即可
         title = getString(R.string.title_activity_add_note);
+
+        if (getIntent().getLongExtra("noteDataId", -1) != -1) {
+            noteDataId = getIntent().getLongExtra("noteDataId", -1);
+            noteData = DataSupport.find(NoteData.class, noteDataId);
+        }
 
         initView();
         initData();
@@ -98,10 +107,17 @@ public class AddNoteActivity extends BaseActivity {
         String nowTime = formatter.format(curDate);
         long myStr = System.currentTimeMillis() / 1000 / 60 / 60 / 24;//精确到天，用来排序
 
-        tvNoteTime.setText(nowTime);
-        noteData = new NoteData();
-        noteData.setCreateData(System.currentTimeMillis());
-        noteData.setTitleHeader(System.currentTimeMillis() / 1000 / 60 / 60 / 24);
+        if (noteDataId != -1) {
+            title = "编辑备忘录";
+            tvNoteTime.setText(formatter.format(noteData.getCreateData()));
+            etAddNoteTitle.setText(noteData.getTitle());
+            etAddNoteDesc.setText(noteData.getDesc());
+        } else {
+            tvNoteTime.setText(nowTime);
+            noteData = new NoteData();
+            noteData.setCreateData(System.currentTimeMillis());
+            noteData.setTitleHeader(System.currentTimeMillis() / 1000 / 60 / 60 / 24);
+        }
     }
 
     @Override

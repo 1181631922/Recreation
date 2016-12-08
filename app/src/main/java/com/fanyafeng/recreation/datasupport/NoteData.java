@@ -12,6 +12,7 @@ import java.util.List;
  * Email: fanyafeng@live.cn
  */
 public class NoteData extends DataSupport {
+    private long id;
     private boolean hasPic;
     private String title;
     private long createData;
@@ -19,6 +20,14 @@ public class NoteData extends DataSupport {
     private String desc;
     private String picUrl;
     private List<NoteImgData> noteImgDataList = new ArrayList<>();
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public boolean isHasPic() {
         return hasPic;
@@ -79,7 +88,8 @@ public class NoteData extends DataSupport {
     @Override
     public String toString() {
         return "NoteData{" +
-                "hasPic=" + hasPic +
+                "id=" + id +
+                ", hasPic=" + hasPic +
                 ", title='" + title + '\'' +
                 ", createData=" + createData +
                 ", titleHeader=" + titleHeader +

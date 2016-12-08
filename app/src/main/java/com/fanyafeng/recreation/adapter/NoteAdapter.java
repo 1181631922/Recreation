@@ -1,6 +1,7 @@
 package com.fanyafeng.recreation.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fanyafeng.recreation.R;
+import com.fanyafeng.recreation.activity.AddNoteActivity;
 import com.fanyafeng.recreation.bean.NoteBean;
 
 import java.util.List;
@@ -35,13 +37,21 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     @Override
     public void onBindViewHolder(NoteViewHolder holder, int position) {
-        NoteBean noteBean = noteBeanList.get(position);
+        final NoteBean noteBean = noteBeanList.get(position);
         holder.tvNoteTitle.setText(noteBean.getTitle());
         if (noteBean.isHasPic()) {
             holder.ivNoteIcon.setVisibility(View.VISIBLE);
         } else {
             holder.ivNoteIcon.setVisibility(View.GONE);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AddNoteActivity.class);
+                intent.putExtra("noteDataId", noteBean.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

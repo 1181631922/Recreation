@@ -59,9 +59,9 @@ public class NoteActivity extends BaseActivity {
             NoteBean noteBean = new NoteBean();
             noteBean.setTitle(noteData.getTitle());
             noteBean.setHasPic(noteData.isHasPic());
+            noteBean.setId(noteData.getId());
             noteBeanList.add(noteBean);
         }
-
 
         noteAdapter = new NoteAdapter(this, noteBeanList);
         rvNote.setAdapter(noteAdapter);

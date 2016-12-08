@@ -9,6 +9,7 @@ import android.os.Parcelable;
  * Email: fanyafeng@live.cn
  */
 public class NoteBean implements Parcelable {
+    private long id;
     private boolean hasPic;
     private String title;
     private long creatData;
@@ -20,6 +21,7 @@ public class NoteBean implements Parcelable {
     }
 
     protected NoteBean(Parcel in) {
+        id = in.readLong();
         hasPic = in.readByte() != 0;
         title = in.readString();
         creatData = in.readLong();
@@ -30,6 +32,7 @@ public class NoteBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
         dest.writeByte((byte) (hasPic ? 1 : 0));
         dest.writeString(title);
         dest.writeLong(creatData);
@@ -54,6 +57,14 @@ public class NoteBean implements Parcelable {
             return new NoteBean[size];
         }
     };
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public boolean isHasPic() {
         return hasPic;
@@ -106,7 +117,8 @@ public class NoteBean implements Parcelable {
     @Override
     public String toString() {
         return "NoteBean{" +
-                "hasPic=" + hasPic +
+                "id=" + id +
+                ", hasPic=" + hasPic +
                 ", title='" + title + '\'' +
                 ", creatData=" + creatData +
                 ", titleHeader=" + titleHeader +
