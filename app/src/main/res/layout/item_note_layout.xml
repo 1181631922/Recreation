@@ -48,5 +48,6 @@
         android:id="@+id/tvItemLine"
         android:layout_width="match_parent"
         android:layout_height="0.43dp"
+        android:layout_marginLeft="28dp"
         android:background="@color/grgray" />
 </LinearLayout>

@@ -3,6 +3,9 @@ package com.fanyafeng.recreation.datasupport;
 import org.litepal.annotation.Column;
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Author： fanyafeng
  * Data： 16/12/7 17:25
@@ -13,8 +16,11 @@ public class NoteData extends DataSupport {
     private int id;
     private boolean hasPic;
     private String title;
+    private long createData;
+    private long titleHeader;
     private String desc;
     private String picUrl;
+    private List<NoteImgData> noteImgDataList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -40,6 +46,22 @@ public class NoteData extends DataSupport {
         this.title = title;
     }
 
+    public long getCreateData() {
+        return createData;
+    }
+
+    public void setCreateData(long createData) {
+        this.createData = createData;
+    }
+
+    public long getTitleHeader() {
+        return titleHeader;
+    }
+
+    public void setTitleHeader(long titleHeader) {
+        this.titleHeader = titleHeader;
+    }
+
     public String getDesc() {
         return desc;
     }
@@ -56,14 +78,25 @@ public class NoteData extends DataSupport {
         this.picUrl = picUrl;
     }
 
+    public List<NoteImgData> getNoteImgDataList() {
+        return noteImgDataList;
+    }
+
+    public void setNoteImgDataList(List<NoteImgData> noteImgDataList) {
+        this.noteImgDataList = noteImgDataList;
+    }
+
     @Override
     public String toString() {
         return "NoteData{" +
                 "id=" + id +
                 ", hasPic=" + hasPic +
                 ", title='" + title + '\'' +
+                ", createData=" + createData +
+                ", titleHeader=" + titleHeader +
                 ", desc='" + desc + '\'' +
                 ", picUrl='" + picUrl + '\'' +
+                ", noteImgDataList=" + noteImgDataList +
                 '}';
     }
 }

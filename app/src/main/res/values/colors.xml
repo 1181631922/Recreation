@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="item_click_color">#f5f5f5</color>
+    <color name="contentBackground">#f5f5f5</color>
 
     <color name="cc">#59a9ff</color>
 

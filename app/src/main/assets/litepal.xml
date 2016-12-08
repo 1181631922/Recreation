@@ -6,6 +6,6 @@
 
     <list>
         <mapping class="com.fanyafeng.recreation.datasupport.NoteData"></mapping>
-
+        <mapping class="com.fanyafeng.recreation.datasupport.NoteImgData"></mapping>
     </list>
 </litepal>

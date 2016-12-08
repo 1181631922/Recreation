@@ -8,9 +8,11 @@ import android.os.Parcelable;
  * Data： 16/12/7 17:17
  * Email: fanyafeng@live.cn
  */
-public class NoteBean implements Parcelable{
+public class NoteBean implements Parcelable {
     private boolean hasPic;
     private String title;
+    private long creatData;
+    private long titleHeader;
     private String desc;
     private String picUrl;
 
@@ -20,8 +22,25 @@ public class NoteBean implements Parcelable{
     protected NoteBean(Parcel in) {
         hasPic = in.readByte() != 0;
         title = in.readString();
+        creatData = in.readLong();
+        titleHeader = in.readLong();
         desc = in.readString();
         picUrl = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (hasPic ? 1 : 0));
+        dest.writeString(title);
+        dest.writeLong(creatData);
+        dest.writeLong(titleHeader);
+        dest.writeString(desc);
+        dest.writeString(picUrl);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<NoteBean> CREATOR = new Creator<NoteBean>() {
@@ -52,6 +71,22 @@ public class NoteBean implements Parcelable{
         this.title = title;
     }
 
+    public long getCreatData() {
+        return creatData;
+    }
+
+    public void setCreatData(long creatData) {
+        this.creatData = creatData;
+    }
+
+    public long getTitleHeader() {
+        return titleHeader;
+    }
+
+    public void setTitleHeader(long titleHeader) {
+        this.titleHeader = titleHeader;
+    }
+
     public String getDesc() {
         return desc;
     }
@@ -73,21 +108,10 @@ public class NoteBean implements Parcelable{
         return "NoteBean{" +
                 "hasPic=" + hasPic +
                 ", title='" + title + '\'' +
+                ", creatData=" + creatData +
+                ", titleHeader=" + titleHeader +
                 ", desc='" + desc + '\'' +
                 ", picUrl='" + picUrl + '\'' +
                 '}';
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeByte((byte) (hasPic ? 1 : 0));
-        parcel.writeString(title);
-        parcel.writeString(desc);
-        parcel.writeString(picUrl);
     }
 }

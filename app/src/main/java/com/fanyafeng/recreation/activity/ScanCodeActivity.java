@@ -77,7 +77,7 @@ public class ScanCodeActivity extends BaseActivity {
                         startActivityForResult(intent, REQUEST_IMAGE);
                     }
                 }).show();
-                return false;
+                return true;
             }
         });
         tvScanResult = (TextView) findViewById(R.id.tvScanResult);

@@ -50,6 +50,7 @@ public class ControllerListenerUtil {
         DraweeController controller = Fresco.newDraweeControllerBuilder()
                 .setControllerListener(controllerListener)
                 .setUri(Uri.parse(imagePath))
+                .setAutoPlayAnimations(true)//支持gif图片加载
                 .build();
         simpleDraweeView.setController(controller);
     }
