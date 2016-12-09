@@ -17,6 +17,7 @@ import com.fanyafeng.recreation.BaseActivity;
 import com.fanyafeng.recreation.adapter.NoteAdapter;
 import com.fanyafeng.recreation.bean.NoteBean;
 import com.fanyafeng.recreation.datasupport.NoteData;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import org.litepal.crud.DataSupport;
 
@@ -59,13 +60,14 @@ public class NoteActivity extends BaseActivity {
             NoteBean noteBean = new NoteBean();
             noteBean.setTitle(noteData.getTitle());
             noteBean.setHasPic(noteData.isHasPic());
+            noteBean.setTitleHeader(noteData.getTitleHeader());
             noteBean.setId(noteData.getId());
             noteBeanList.add(noteBean);
         }
 
         noteAdapter = new NoteAdapter(this, noteBeanList);
         rvNote.setAdapter(noteAdapter);
-
+        rvNote.addItemDecoration(new StickyRecyclerHeadersDecoration(noteAdapter));
     }
 
     @Override

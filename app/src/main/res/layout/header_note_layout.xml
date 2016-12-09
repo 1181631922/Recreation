@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@android:color/holo_blue_dark"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvNoteTopLine"
+            android:layout_width="0.5dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="18dp"
+            android:background="@color/grgray" />
+
+        <TextView
+            android:id="@+id/tvNotePonit"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginLeft="13.25dp"
+            android:background="@drawable/note_point" />
+
+        <TextView
+            android:id="@+id/tvNoteBottomLine"
+            android:layout_width="0.5dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="18dp"
+            android:background="@color/grgray" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvNoteTime"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="时间：2015年11月12日" />
+
+</LinearLayout>

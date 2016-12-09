@@ -11,7 +11,7 @@
 
         <TextView
             android:id="@+id/tvNoteLine"
-            android:layout_width="0.43dp"
+            android:layout_width="0.5dp"
             android:layout_height="60dp"
             android:layout_marginLeft="18dp"
             android:background="@color/grgray" />
@@ -41,13 +41,17 @@
             android:layout_marginRight="18dp"
             android:src="@drawable/icon_picture" />
 
+        <TextView
+            android:id="@+id/tvItemLine"
+            android:layout_width="match_parent"
+            android:layout_height="0.43dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="28dp"
+            android:background="@color/grgray" />
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tvItemLine"
-        android:layout_width="match_parent"
-        android:layout_height="0.43dp"
-        android:layout_marginLeft="28dp"
-        android:background="@color/grgray" />
+
 </LinearLayout>

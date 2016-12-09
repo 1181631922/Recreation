@@ -62,7 +62,7 @@ public class AddNoteActivity extends BaseActivity {
     private NoteData noteData;
     private List<NoteImgData> noteImgDataList = new ArrayList<>();
 
-    private long noteDataId;
+    private long noteDataId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,9 @@ public class AddNoteActivity extends BaseActivity {
             etAddNoteTitle.setText(noteData.getTitle());
             etAddNoteDesc.setText(noteData.getDesc());
         } else {
-            tvNoteTime.setText(nowTime);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+            Date date = new Date(myStr * 1000 * 60 * 60 * 24);
+            tvNoteTime.setText(nowTime + "|" + simpleDateFormat.format(date));
             noteData = new NoteData();
             noteData.setCreateData(System.currentTimeMillis());
             noteData.setTitleHeader(System.currentTimeMillis() / 1000 / 60 / 60 / 24);
