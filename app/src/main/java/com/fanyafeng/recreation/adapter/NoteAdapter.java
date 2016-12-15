@@ -92,7 +92,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         long nowTime = noteBeanList.get(position).getTitleHeader() * 1000 * 60 * 60 * 24;
         Date curDate = new Date(nowTime);
         holder.tvNoteTime.setText("时间：" + formatter.format(curDate));
-        Log.d("时间：", "得到的长整形时间：" + noteBeanList.get(position).getTitleHeader());
     }
 
     @Override
