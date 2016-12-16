@@ -1,6 +1,7 @@
 package com.fanyafeng.recreation.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fanyafeng.recreation.R;
+import com.fanyafeng.recreation.activity.MenuDetailActivity;
 import com.fanyafeng.recreation.bean.MenuBean;
 import com.fanyafeng.recreation.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.fanyafeng.recreation.util.FrescoUtil;
@@ -46,6 +48,13 @@ public class MenuAdapter extends BaseRecyclerAdapter<MenuAdapter.MenuViewHolder>
         FrescoUtil.loadPicOnNet(holder.sdvMenuImg, menuBean.getPic(), 1.0f);
         holder.tvMenuTitle.setText(menuBean.getTitle());
         holder.tvBurden.setText(menuBean.getBurden());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MenuDetailActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
 
