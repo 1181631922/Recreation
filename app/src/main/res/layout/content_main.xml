@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:text="视频"
+                    android:text="美食"
                     android:textColor="@android:color/holo_red_light"
                     android:textSize="13dp" />
             </LinearLayout>

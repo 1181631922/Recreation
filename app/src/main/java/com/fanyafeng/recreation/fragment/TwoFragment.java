@@ -4,8 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,25 +19,47 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.fanyafeng.recreation.R;
+import com.fanyafeng.recreation.adapter.MenuAdapter;
 import com.fanyafeng.recreation.bean.MainItemBean;
+import com.fanyafeng.recreation.bean.MenuBean;
 import com.fanyafeng.recreation.network.NetUtil;
 import com.fanyafeng.recreation.network.Urls;
+import com.fanyafeng.recreation.refreshview.XRefreshView;
+import com.fanyafeng.recreation.refreshview.XRefreshViewFooter;
 import com.fanyafeng.recreation.util.StringUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class TwoFragment extends BaseFragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static final int XREFRESH_GET_DATA = 0;
+    private static final int XREFRESH_FRESH = 1;
+    private static final int XREFRESH_LOAD_MORE = 2;
+
     private String mParam1;
     private String mParam2;
 
     private Toolbar toolbar_two;
+
+    private XRefreshView refreshTwo;
+    private RecyclerView rvTwo;
+
+    private List<MenuBean> menuBeanList = new ArrayList<>();
+
+    private MenuAdapter menuAdapter;
+
+    private int page = 1;
 
 
     public TwoFragment() {
@@ -67,43 +94,149 @@ public class TwoFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
-        initData();
+        Thread thread = new Thread(new LoadThread(XREFRESH_GET_DATA));
+        thread.start();
     }
 
     private void initView() {
         toolbar_two = (Toolbar) getActivity().findViewById(R.id.toolbar_two);
         toolbar_two.setLogo(R.drawable.simle_logo_02);
-        toolbar_two.setTitle("视频");
-    }
+        toolbar_two.setTitle("美食");
 
-    private void initData() {
-        new AsyncTask<String, String, String>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
+        refreshTwo = (XRefreshView) getActivity().findViewById(R.id.refreshTwo);
+        refreshTwo.setAutoLoadMore(true);
+        refreshTwo.setPullLoadEnable(true);
 
+        rvTwo = (RecyclerView) getActivity().findViewById(R.id.rvTwo);
+        rvTwo.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        menuAdapter = new MenuAdapter(getActivity(), menuBeanList);
+        menuAdapter.setCustomLoadMoreView(new XRefreshViewFooter(getActivity()));
+        rvTwo.setAdapter(menuAdapter);
+
+        refreshTwo.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
             @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                try {
-                    if (!StringUtil.isNullOrEmpty(s)) {
-                        JSONObject jsonObject = new JSONObject(s);
-                        if (jsonObject != null) {
-                            Log.d("音悦台数据：", jsonObject.toString());
-                        }
-                        return;
+            public void onRefresh() {
+                super.onRefresh();
+//                getData(1, XREFRESH_FRESH);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Thread thread = new Thread(new LoadThread(XREFRESH_FRESH));
+                        thread.start();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
+                }, 1000);
             }
 
             @Override
-            protected String doInBackground(String... params) {
-                return NetUtil.httpGetUtil(getActivity(), Urls.GET_TOP_VIDEO_LIST);
+            public void onLoadMore(boolean isSilence) {
+                super.onLoadMore(isSilence);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Thread thread = new Thread(new LoadThread(XREFRESH_LOAD_MORE));
+                        thread.start();
+                    }
+                }, 1000);
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        });
     }
+
+    private void getData(int page, int refreshState) {
+
+        try {
+//            Document document = Jsoup.connect("http://home.meishichina.com/show-top-type-recipe.html").get();
+//            http://home.meishichina.com/show-top-type-recipe-page-2.html
+
+
+            Document document = Jsoup.connect("http://home.meishichina.com/show-top-type-recipe-page-" + page + ".html").get();
+
+            Log.d("jsoup:", "http://home.meishichina.com/show-top-type-recipe-page-" + page + ".html");
+
+            Elements elements = document.select("div.top-bar");
+//            Log.d("jsoup:", elements.select("a").attr("title"));
+
+            Elements titleAndPic = document.select("div.pic");
+//            Log.d("jsoup", "数量：" + titleAndPic.size());
+//            Log.d("jsoup", "title:" + titleAndPic.get(1).select("a").attr("title") + "pic:" + titleAndPic.get(1).select("a").select("img").attr("data-src"));
+            Elements url = document.select("div.detail").select("a");
+//            Log.d("jsoup", "url:" + url.get(1).attr("href"));
+            Elements burden = document.select("p.subcontent");
+//            Log.d("jsoup", "burden:" + burden.get(1).text());
+
+//            if (refreshState == XREFRESH_GET_DATA) {
+//                menuBeanList.clear();
+//            } else if (refreshState == XREFRESH_FRESH) {
+//                menuBeanList.clear();
+//                refreshTwo.stopRefresh();
+//            } else if (refreshState == XREFRESH_GET_DATA) {
+//                refreshTwo.stopLoadMore();
+//            }
+
+            for (int i = 0; i < titleAndPic.size(); i++) {
+//                Log.d("jsoup", "title:" + titleAndPic.get(i).select("a").attr("title") + "pic:" + titleAndPic.get(i).select("a").select("img").attr("data-src"));
+//                Log.d("jsoup", "url:" + url.get(i).attr("href"));
+//                Log.d("jsoup", "burden:" + burden.get(i).text());
+                int imgLength = titleAndPic.get(i).select("a").select("img").attr("data-src").length();
+                String img = titleAndPic.get(i).select("a").select("img").attr("data-src");
+//                Log.d("jsoup", img.substring(0, imgLength - 3) + "640");
+                String title = titleAndPic.get(i).select("a").attr("title");
+                String pic = img.substring(0, imgLength - 3) + "640";
+                String itemUrl = url.get(i).attr("href");
+                String itemBurden = burden.get(i).text();
+                MenuBean menuBean = new MenuBean();
+                menuBean.setTitle(title);
+                menuBean.setPic(pic);
+                menuBean.setUrl(itemUrl);
+                menuBean.setBurden(itemBurden);
+                menuBeanList.add(menuBean);
+                Message message = Message.obtain();
+                message.what = refreshState;
+                handler.sendMessage(message);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    class LoadThread implements Runnable {
+
+        int refreshState;
+
+        public LoadThread(int refreshState) {
+            this.refreshState = refreshState;
+        }
+
+        @Override
+        public void run() {
+            if (refreshState == XREFRESH_GET_DATA) {
+                menuBeanList.clear();
+                page = 1;
+            } else if (refreshState == XREFRESH_FRESH) {
+                menuBeanList.clear();
+                page = 1;
+            } else if (refreshState == XREFRESH_LOAD_MORE) {
+                page++;
+            }
+            getData(page, refreshState);
+        }
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case XREFRESH_FRESH:
+                    refreshTwo.stopRefresh();
+                    break;
+                case XREFRESH_GET_DATA:
+                    break;
+                case XREFRESH_LOAD_MORE:
+                    refreshTwo.stopLoadMore();
+                    break;
+            }
+            menuAdapter.notifyDataSetChanged();
+        }
+    };
 }

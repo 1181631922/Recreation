@@ -1,5 +1,6 @@
 package com.fanyafeng.recreation;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.support.design.widget.Snackbar;
