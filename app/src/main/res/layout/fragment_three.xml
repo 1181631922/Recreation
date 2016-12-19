@@ -38,23 +38,22 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <LinearLayout
+            <com.fanyafeng.recreation.refreshview.XRefreshView
+                android:id="@+id/refreshYinYue"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:id="@+id/layoutFodder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                android:layout_height="match_parent">
 
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvYinYue"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </com.fanyafeng.recreation.refreshview.XRefreshView>
+        </RelativeLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -3,8 +3,12 @@ package com.fanyafeng.recreation.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +17,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.fanyafeng.recreation.R;
+import com.fanyafeng.recreation.adapter.YinYueAdapter;
+import com.fanyafeng.recreation.bean.YinYueBean;
+import com.fanyafeng.recreation.refreshview.XRefreshView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ThreeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -26,8 +36,11 @@ public class ThreeFragment extends Fragment {
     private String mParam2;
 
     private Toolbar toolbar_three;
-    private LinearLayout layoutFodder;
+    private XRefreshView refreshYinYue;
+    private RecyclerView rvYinYue;
 
+    private List<YinYueBean> yinYueBeanList = new ArrayList<>();
+    private YinYueAdapter yinYueAdapter;
 
     public ThreeFragment() {
     }
@@ -68,74 +81,55 @@ public class ThreeFragment extends Fragment {
     private void initView() {
         toolbar_three = (Toolbar) getActivity().findViewById(R.id.toolbar_three);
         toolbar_three.setLogo(R.drawable.simle_logo_03);
-        toolbar_three.setTitle("笑话");
-        layoutFodder = (LinearLayout) getActivity().findViewById(R.id.layoutFodder);
+        toolbar_three.setTitle("音乐视频");
 
-        for (int i = 0; i < 3; i++) {
-            LinearLayout linearLayout = new LinearLayout(getActivity());
-            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            linearLayout.setWeightSum(3);
-            for (int j = 0; j < 3; j++) {
-                View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_fodder_layout, null);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                layoutParams.weight = 1f;
-                linearLayout.addView(view, layoutParams);
-            }
-            layoutFodder.addView(linearLayout);
-        }
-
-
+        refreshYinYue = (XRefreshView) getActivity().findViewById(R.id.refreshYinYue);
+        refreshYinYue.setPullLoadEnable(true);
+        refreshYinYue.setAutoLoadMore(true);
+        rvYinYue = (RecyclerView) getActivity().findViewById(R.id.rvYinYue);
+        rvYinYue.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
+        yinYueAdapter = new YinYueAdapter(getActivity(), yinYueBeanList);
+        rvYinYue.setAdapter(yinYueAdapter);
     }
 
     private void initData() {
         try {
-            Document document = Jsoup.connect("http://home.meishichina.com/recipe-304301.html").get();
+            Document document = Jsoup.connect("http://pl.yinyuetai.com/playlist_promo/1").get();
 
-            //菜名
-            Elements recipeDeImgBox = document.getElementsByClass("recipe_De_imgBox");
-            String title = recipeDeImgBox.select("a").attr("title");
-//            Log.d("jsoup", title);
+            //列表的单个项的网页链接
+            Elements itemElement = document.getElementsByClass("pl_img");
+//            String itemUrl = itemElement.select("a").attr("href");
+//            Log.d("jsoup", itemUrl);
 
-            //顶部大图
-            String imgUrl = recipeDeImgBox.select("a").select("img").attr("src");
-//            Log.d("jsoup", imgUrl);
+            //列表单个项的title
+//            String itemTitle = itemElement.select("a").attr("title");
+//            Log.d("jsoup", itemTitle);
 
-            //食材明细
-            Elements fodderElement = document.getElementsByClass("mo mt20");
-            String fodderTitle = fodderElement.get(0).select("h3").text();
-//            Log.d("jsoup", fodderTitle);
+            //列表单个项的icon大图
+//            String itemIcon = itemElement.select("a").select("img").attr("src");
+//            Log.d("jsoup", itemIcon);
 
-            //具体食材
-            Elements fodderItemElement = document.getElementsByClass("recipeCategory_sub_R clear");
-            int fodderSize = fodderItemElement.select(".category_s1").size();
-            for (int i = 0; i < fodderSize; i++) {
-                String fodderName = fodderItemElement.select(".category_s1").get(i).select("b").text();
-//                Log.d("jsoup", fodderName);//食材名称
-                String fodderMany = fodderItemElement.select(".category_s2").get(i).text();
-//                Log.d("jsoup", fodderMany);//食材计量
+            //人物头像
+            Elements iconBoxElement = document.getElementsByClass("icon_box");
+//            String itemImg = iconBoxElement.select("img").attr("src");
+//            Log.d("jsoup", itemImg);
+
+            int itemSize = itemElement.size();
+            for (int i = 0; i < itemSize; i++) {
+                YinYueBean yinYueBean = new YinYueBean();
+                String itemUrl = itemElement.get(i).select("a").attr("href");
+                yinYueBean.setHref(itemUrl);
+                String itemTitle = itemElement.get(i).select("a").attr("title");
+                yinYueBean.setTitle(itemTitle);
+                String itemImg = itemElement.get(i).select("a").select("img").attr("src");
+                yinYueBean.setImg(itemImg);
+                String itemIcon = iconBoxElement.get(i).select("img").attr("src");
+                yinYueBean.setIcon(itemIcon);
+                yinYueBeanList.add(yinYueBean);
             }
-
-            //食材工艺
-            Elements fodderArtElement = document.getElementsByClass("recipeCategory_sub_R mt30 clear");
-            int fodderArtSize = fodderArtElement.select(".category_s1").size();
-            for (int i = 0; i < fodderArtSize; i++) {
-                String fodderArtTitle = fodderItemElement.select(".category_s1").get(i).select("a").attr("title");
-//                Log.d("jsoup", fodderArtTitle);
-                String fodderArtDetail = fodderItemElement.select(".category_s2").get(i).text();
-//                Log.d("jsoup", fodderArtDetail);
-            }
-
-            //步骤讲解
-            Elements recipeStepElement = document.getElementsByClass("recipeStep_word");
-            Elements recipeStepImgElement = document.getElementsByClass("recipeStep_img");
-
-            int recipeStepSize = recipeStepElement.size();
-            for (int i = 0; i < recipeStepSize; i++) {
-                String recipeImg = recipeStepImgElement.get(i).select("img").attr("src");
-//                Log.d("jsoup", recipeImg);//步骤图片
-                String recipeStep = recipeStepElement.get(i).text();
-//                Log.d("jsoup", recipeStep);//步骤说明
-            }
+            Message message0 = Message.obtain();
+            message0.what = 0;
+            handler.sendMessage(message0);
 
 
         } catch (Exception e) {
@@ -150,4 +144,16 @@ public class ThreeFragment extends Fragment {
             initData();
         }
     }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    yinYueAdapter.notifyDataSetChanged();
+                    break;
+            }
+        }
+    };
 }
