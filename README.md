@@ -14,6 +14,11 @@
 这里是我对fresco图片框架写的工具类，我自己用的就是这个工具类，[点击查看详情介绍](https://github.com/1181631922/Recreation/blob/master/readme/picture/fresco1.md)
 来看一下使用效果：<br>
 ![fresco效果图片](https://github.com/1181631922/Recreation/blob/master/ScreenShots/food1.gif)
+### 2.项目中使用爬虫对美食网站的数据获取
+[请戳我查看爬虫使用详情](https://github.com/1181631922/Recreation/blob/master/readme/spider/spider1.md)<br>
+暂时只是对美食网站进行的数据的获取，后面很有可能加入视频网站的数据<br>
+先来看一下美食网站的效果图：<br>
+![美食网站图片](https://github.com/1181631922/Recreation/blob/master/ScreenShots/food2.gif)
 
 
 
