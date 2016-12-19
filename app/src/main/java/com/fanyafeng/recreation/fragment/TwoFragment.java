@@ -158,19 +158,11 @@ public class TwoFragment extends BaseFragment {
             Elements titleAndPic = document.select("div.pic");
 //            Log.d("jsoup", "数量：" + titleAndPic.size());
 //            Log.d("jsoup", "title:" + titleAndPic.get(1).select("a").attr("title") + "pic:" + titleAndPic.get(1).select("a").select("img").attr("data-src"));
-            Elements url = document.select("div.detail").select("a");
+            Elements url = document.select("div.detail").select("h2").select("a");
 //            Log.d("jsoup", "url:" + url.get(1).attr("href"));
             Elements burden = document.select("p.subcontent");
 //            Log.d("jsoup", "burden:" + burden.get(1).text());
 
-//            if (refreshState == XREFRESH_GET_DATA) {
-//                menuBeanList.clear();
-//            } else if (refreshState == XREFRESH_FRESH) {
-//                menuBeanList.clear();
-//                refreshTwo.stopRefresh();
-//            } else if (refreshState == XREFRESH_GET_DATA) {
-//                refreshTwo.stopLoadMore();
-//            }
 
             for (int i = 0; i < titleAndPic.size(); i++) {
 //                Log.d("jsoup", "title:" + titleAndPic.get(i).select("a").attr("title") + "pic:" + titleAndPic.get(i).select("a").select("img").attr("data-src"));

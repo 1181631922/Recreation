@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.fanyafeng.recreation.R;
 
@@ -25,6 +26,7 @@ public class ThreeFragment extends Fragment {
     private String mParam2;
 
     private Toolbar toolbar_three;
+    private LinearLayout layoutFodder;
 
 
     public ThreeFragment() {
@@ -67,6 +69,22 @@ public class ThreeFragment extends Fragment {
         toolbar_three = (Toolbar) getActivity().findViewById(R.id.toolbar_three);
         toolbar_three.setLogo(R.drawable.simle_logo_03);
         toolbar_three.setTitle("笑话");
+        layoutFodder = (LinearLayout) getActivity().findViewById(R.id.layoutFodder);
+
+        for (int i = 0; i < 3; i++) {
+            LinearLayout linearLayout = new LinearLayout(getActivity());
+            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            linearLayout.setWeightSum(3);
+            for (int j = 0; j < 3; j++) {
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_fodder_layout, null);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams.weight = 1f;
+                linearLayout.addView(view, layoutParams);
+            }
+            layoutFodder.addView(linearLayout);
+        }
+
+
     }
 
     private void initData() {
@@ -114,9 +132,9 @@ public class ThreeFragment extends Fragment {
             int recipeStepSize = recipeStepElement.size();
             for (int i = 0; i < recipeStepSize; i++) {
                 String recipeImg = recipeStepImgElement.get(i).select("img").attr("src");
-                Log.d("jsoup", recipeImg);//步骤图片
+//                Log.d("jsoup", recipeImg);//步骤图片
                 String recipeStep = recipeStepElement.get(i).text();
-                Log.d("jsoup", recipeStep);//步骤说明
+//                Log.d("jsoup", recipeStep);//步骤说明
             }
 
 

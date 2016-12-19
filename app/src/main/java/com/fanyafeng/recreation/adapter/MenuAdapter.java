@@ -44,7 +44,7 @@ public class MenuAdapter extends BaseRecyclerAdapter<MenuAdapter.MenuViewHolder>
 
     @Override
     public void onBindViewHolder(MenuViewHolder holder, int position, boolean isItem) {
-        MenuBean menuBean = menuBeanList.get(position);
+        final MenuBean menuBean = menuBeanList.get(position);
         FrescoUtil.loadPicOnNet(holder.sdvMenuImg, menuBean.getPic(), 1.0f);
         holder.tvMenuTitle.setText(menuBean.getTitle());
         holder.tvBurden.setText(menuBean.getBurden());
@@ -52,6 +52,7 @@ public class MenuAdapter extends BaseRecyclerAdapter<MenuAdapter.MenuViewHolder>
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MenuDetailActivity.class);
+                intent.putExtra("url", menuBean.getUrl());
                 context.startActivity(intent);
             }
         });

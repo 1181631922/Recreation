@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdvMenuDetailImg"
+        android:layout_width="160dp"
+        android:layout_height="90dp" />
+
+    <TextView
+        android:id="@+id/tvMenuDetai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="1准备两个猪蹄儿，上次做的猪蹄儿用的是肘子，今天用蹄儿记住对半切开成两半就可以，为啥捏不然剁碎了挑骨头渣子累死你，因为有碎骨头一切就碎了不好看明白了吧"
+        android:textColor="@android:color/black"
+        android:textSize="14dp" />
+
+</LinearLayout>
