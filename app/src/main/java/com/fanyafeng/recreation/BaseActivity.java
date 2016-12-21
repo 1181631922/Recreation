@@ -1,6 +1,8 @@
 package com.fanyafeng.recreation;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.support.design.widget.Snackbar;
@@ -10,7 +12,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+import com.fanyafeng.recreation.fragment.FragmentDialogInterface;
+
+public class BaseActivity extends AppCompatActivity implements View.OnClickListener, FragmentDialogInterface {
 
     protected Toolbar toolbar;
     protected TextView toolbar_center_title;
@@ -21,6 +25,44 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected String title;
     protected String centertitle;
     protected String subtitle;
+
+    protected CustomDialog customDialog;
+
+    @Override
+    public void showDialog(String message) {
+        initProgressDialog();
+        customDialog.setMessage(message);
+        customDialog.show();
+    }
+
+    @Override
+    public void dismiss() {
+        dismissProgressDialog();
+    }
+
+
+    public static class CustomDialog extends ProgressDialog {
+
+        public CustomDialog(Context context) {
+            super(context);
+        }
+    }
+
+    public void initProgressDialog() {
+        if (customDialog == null) {
+            customDialog = new CustomDialog(this);
+            customDialog.setCancelable(true);
+            customDialog.setCanceledOnTouchOutside(false);
+            customDialog.setIndeterminate(true);
+        }
+    }
+
+    public void dismissProgressDialog() {
+        if (customDialog != null && customDialog.isShowing()) {
+            customDialog.dismiss();
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

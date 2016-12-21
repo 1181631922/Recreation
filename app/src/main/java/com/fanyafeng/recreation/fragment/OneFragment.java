@@ -1,6 +1,8 @@
 package com.fanyafeng.recreation.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -46,6 +48,8 @@ public class OneFragment extends BaseFragment {
 
     private FloatingActionButton fabMainToTop;
 
+    private FragmentDialogInterface fragmentDialogInterface;
+
     private int rqcnt = 18;
     private int page = 1;
 
@@ -86,6 +90,7 @@ public class OneFragment extends BaseFragment {
         refreshMain.setAutoLoadMore(true);
 
         fabMainToTop = (FloatingActionButton) getActivity().findViewById(R.id.fabMainToTop);
+
     }
 
     private void initData() {
@@ -282,5 +287,13 @@ public class OneFragment extends BaseFragment {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            fragmentDialogInterface = (FragmentDialogInterface) context;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
