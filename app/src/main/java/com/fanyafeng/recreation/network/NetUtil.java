@@ -30,6 +30,7 @@ import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -103,6 +104,54 @@ public class NetUtil {
                 .header(HEADER_KEY_ACCEPT_ENCODING, "gzip")
                 .url(url)
                 .post(builder.build());
+
+//        Account account = new AccountManager(context).getAccount();
+
+//        if (account.isLogined()) {
+//            setTokenHeader(requestBuilder, account.getToken(), url, new DevicePreferences(context).getTokenId());
+//        } else {
+        setTokenHeader(requestBuilder, null, url, new DevicePreferences(context).getUADeviceID());
+//        }
+
+        Request request = requestBuilder.build();
+
+        Response response = null;
+        try {
+            response = mOkHttpClient.newCall(request).execute();
+            Log.d(TAG, "The request httpPostUtil: " + url + " " + response.code());
+            if (response.isSuccessful()) {
+                if ("gzip".equals(response.header(HEADER_KEY_CONTENT_ENCODING))) {
+                    result = decompress(response.body().byteStream());
+                } else {
+                    result = response.body().string();
+                }
+            } else {
+                result = null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            result = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = null;
+        }
+        Log.d(TAG, "The response httpPostUtil: " + url + " the result: " + result);
+        return result;
+    }
+
+    public static String httpPostUtil(Context context, String url, JSONObject jsonObject) {
+        if (!networkAvailable(context)) {
+            return null;
+        }
+        String result;
+
+        RequestBody requestBody = RequestBody.create(JSON, jsonObject.toString());
+
+        Request.Builder requestBuilder = new Request.Builder()
+                .header(USER_AGENT, getHeader(context))
+                .header(HEADER_KEY_ACCEPT_ENCODING, "gzip")
+                .url(url)
+                .post(requestBody);
 
 //        Account account = new AccountManager(context).getAccount();
 
@@ -274,7 +323,7 @@ public class NetUtil {
         } else {
             versionName = pi.versionName;
         }
-        return CLIENT_USER_AGENT + "/" + new DevicePreferences(context).getUADeviceID()  + "/"
+        return CLIENT_USER_AGENT + "/" + new DevicePreferences(context).getUADeviceID() + "/"
                 + versionName + "/" + cityCode;
     }
 

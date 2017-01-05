@@ -9,7 +9,7 @@
         android:id="@+id/sdvImg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:viewAspectRatio="1" />
+        app:viewAspectRatio="1.778" />
 
 
     <TextView

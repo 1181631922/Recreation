@@ -1,7 +1,6 @@
 package com.fanyafeng.recreation.fragment;
 
-import android.content.Context;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,19 +13,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.fanyafeng.recreation.R;
-import com.fanyafeng.recreation.adapter.YinYueAdapter;
-import com.fanyafeng.recreation.bean.YinYueBean;
+import com.fanyafeng.recreation.adapter.VideoAdapter;
+import com.fanyafeng.recreation.bean.VideoBean;
+import com.fanyafeng.recreation.network.NetUtil;
 import com.fanyafeng.recreation.refreshview.XRefreshView;
+import com.fanyafeng.recreation.util.StringUtil;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static com.fanyafeng.recreation.network.NetUtil.JSON;
 
 public class ThreeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -36,11 +44,11 @@ public class ThreeFragment extends Fragment {
     private String mParam2;
 
     private Toolbar toolbar_three;
-    private XRefreshView refreshYinYue;
-    private RecyclerView rvYinYue;
+    private XRefreshView refreshVideo;
+    private RecyclerView rvVideo;
 
-    private List<YinYueBean> yinYueBeanList = new ArrayList<>();
-    private YinYueAdapter yinYueAdapter;
+    private List<VideoBean> videoBeanList = new ArrayList<>();
+    private VideoAdapter videoAdapter;
 
     public ThreeFragment() {
     }
@@ -74,8 +82,10 @@ public class ThreeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initView();
 //        initData();
-        Thread thread = new Thread(new LoadThread());
-        thread.start();
+//        Thread thread = new Thread(new LoadThread());
+//        thread.start();
+
+        new RecommandWineTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void initView() {
@@ -83,77 +93,110 @@ public class ThreeFragment extends Fragment {
         toolbar_three.setLogo(R.drawable.simle_logo_03);
         toolbar_three.setTitle("音乐视频");
 
-        refreshYinYue = (XRefreshView) getActivity().findViewById(R.id.refreshYinYue);
-        refreshYinYue.setPullLoadEnable(true);
-        refreshYinYue.setAutoLoadMore(true);
-        rvYinYue = (RecyclerView) getActivity().findViewById(R.id.rvYinYue);
-        rvYinYue.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
-        yinYueAdapter = new YinYueAdapter(getActivity(), yinYueBeanList);
-        rvYinYue.setAdapter(yinYueAdapter);
+        refreshVideo = (XRefreshView) getActivity().findViewById(R.id.refreshVideo);
+        refreshVideo.setPullLoadEnable(true);
+        refreshVideo.setAutoLoadMore(true);
+        rvVideo = (RecyclerView) getActivity().findViewById(R.id.rvVideo);
+        rvVideo.setLayoutManager(new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false));
+        videoAdapter = new VideoAdapter(getActivity(), videoBeanList);
+        rvVideo.setAdapter(videoAdapter);
     }
 
     private void initData() {
-        try {
-            Document document = Jsoup.connect("http://pl.yinyuetai.com/playlist_promo/1").get();
 
-            //列表的单个项的网页链接
-            Elements itemElement = document.getElementsByClass("pl_img");
-//            String itemUrl = itemElement.select("a").attr("href");
-//            Log.d("jsoup", itemUrl);
+    }
 
-            //列表单个项的title
-//            String itemTitle = itemElement.select("a").attr("title");
-//            Log.d("jsoup", itemTitle);
+    class RecommandWineTask extends AsyncTask<String, String, String> {
 
-            //列表单个项的icon大图
-//            String itemIcon = itemElement.select("a").select("img").attr("src");
-//            Log.d("jsoup", itemIcon);
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
-            //人物头像
-            Elements iconBoxElement = document.getElementsByClass("icon_box");
-//            String itemImg = iconBoxElement.select("img").attr("src");
-//            Log.d("jsoup", itemImg);
-
-            int itemSize = itemElement.size();
-            for (int i = 0; i < itemSize; i++) {
-                YinYueBean yinYueBean = new YinYueBean();
-                String itemUrl = itemElement.get(i).select("a").attr("href");
-                yinYueBean.setHref(itemUrl);
-                String itemTitle = itemElement.get(i).select("a").attr("title");
-                yinYueBean.setTitle(itemTitle);
-                String itemImg = itemElement.get(i).select("a").select("img").attr("src");
-                yinYueBean.setImg(itemImg);
-                String itemIcon = iconBoxElement.get(i).select("img").attr("src");
-                yinYueBean.setIcon(itemIcon);
-                yinYueBeanList.add(yinYueBean);
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!StringUtil.isNullOrEmpty(s)) {
+                Log.d("video", s);
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject != null) {
+                        String state = jsonObject.optString("state");
+                        if (state.equals(NetUtil.STATE_OK)) {
+                            JSONArray jsonArray = jsonObject.optJSONArray("videoList");
+                            int videoSize = jsonArray.length();
+                            for (int i = 0; i < videoSize; i++) {
+                                VideoBean videoBean = new VideoBean(jsonArray.optJSONObject(i));
+                                videoBeanList.add(videoBean);
+                                videoAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-            Message message0 = Message.obtain();
-            message0.what = 0;
-            handler.sendMessage(message0);
+        }
 
+        @Override
+        protected String doInBackground(String... param) {
+            return NetUtil.httpGetUtil(getActivity(), "http://localhost:8080/recreation-1.0/videos/findVideoByPage?page=0");
+        }
+    }
 
-        } catch (Exception e) {
+    private void postJson() {
+        //申明给服务端传递一个json串
+        //创建一个OkHttpClient对象
+        OkHttpClient okHttpClient = new OkHttpClient();
+        //创建一个RequestBody(参数1：数据类型 参数2传递的json串)
+        JSONObject jsonObject = new JSONObject();
+        JSONObject common = null;
+        JSONObject params = null;
+        try {
+            common = new JSONObject();
+            common.put("identifier", "mo098fd4ac5ed161ad921d6048636625");
+            common.put("app_version", "1006010802");
+            common.put("os_version", "23");
+            common.put("device", "Google Nexus 6P - 6.0.0 - API 23 - 1440x2560");
+            common.put("platform", "Android");
+            common.put("pid", "5080");
+            common.put("language", "CN");
+            common.put("uid", "366617270");
+            common.put("width", "1440");
+            common.put("height", "2392");
+
+            params = new JSONObject();
+            params.put("category_id", "113");
+            params.put("city_id", "33");
+            params.put("page_past", "0");
+            params.put("page_length", "10");
+            params.put("is_webp", "1");
+
+            jsonObject.put("common", common);
+            jsonObject.put("params", params);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+        RequestBody requestBody = RequestBody.create(JSON, jsonObject.toString());
+        //创建一个请求对象
+        Request request = new Request.Builder()
+                .url("http://fds.api.moji.com/card/recommendV2")
+                .post(requestBody)
+                .build();
+        //发送请求获取响应
+        try {
+            Response response = okHttpClient.newCall(request).execute();
+            //判断请求是否成功
+            if (response.isSuccessful()) {
+                //打印服务端返回结果
+                Log.i("three", response.body().string());
 
-    class LoadThread implements Runnable {
-
-        @Override
-        public void run() {
-            initData();
-        }
-    }
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    yinYueAdapter.notifyDataSetChanged();
-                    break;
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    };
+
+    }
+
+
 }

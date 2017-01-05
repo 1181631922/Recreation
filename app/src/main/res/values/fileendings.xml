@@ -18,6 +18,8 @@
         <item>.rmvb</item>
         <item>.avi</item>
         <item>.flv</item>
+        <item>.mkv</item>
+        <item>.f4v</item>
     </array>
     <array name="fileEndingPackage">
         <item>.jar</item>

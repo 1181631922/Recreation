@@ -44,12 +44,12 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <com.fanyafeng.recreation.refreshview.XRefreshView
-                android:id="@+id/refreshYinYue"
+                android:id="@+id/refreshVideo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvYinYue"
+                    android:id="@+id/rvVideo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </com.fanyafeng.recreation.refreshview.XRefreshView>

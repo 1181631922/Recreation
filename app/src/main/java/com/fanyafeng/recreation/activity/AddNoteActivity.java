@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -229,6 +230,41 @@ public class AddNoteActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public String getTime() {
+        final Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
+        boolean is24hFormart = DateFormat.is24HourFormat(this);
+        if (!is24hFormart && hour >= 12) {
+            hour = hour - 12;
+        }
+
+        String time = "";
+        if (hour >= 10) {
+            time += Integer.toString(hour);
+        } else {
+            time += "0" + Integer.toString(hour);
+        }
+        time += ":";
+
+        if (minute >= 10) {
+            time += Integer.toString(minute);
+        } else {
+            time += "0" + Integer.toString(minute);
+        }
+
+        if (!is24hFormart) {
+            int apm = c.get(Calendar.AM_PM);
+            if (apm == Calendar.AM)
+                time += " AM";
+            else if (apm == Calendar.PM)
+                time += " PM";
+        }
+
+        return time;
     }
 
 }

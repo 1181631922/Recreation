@@ -122,6 +122,9 @@ public class FileExplorerActivity extends BaseActivity {
 //            可以采用自己的播放器，也可以采用系统的
             intent = getVideoFileIntent(currentPath);
             startActivity(intent);
+//            Intent intent1 = new Intent(this, PlayVideoActivity.class);
+//            intent1.putExtra("videoUrl", currentPath.toString());
+//            startActivity(intent1);
         } else if (checkEndsWithInStringArray(fileName, getResources().
                 getStringArray(R.array.fileEndingText))) {
             intent = getTextFileIntent(currentPath);
