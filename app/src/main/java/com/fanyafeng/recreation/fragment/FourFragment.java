@@ -1,9 +1,15 @@
 package com.fanyafeng.recreation.fragment;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.RemoteViews;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fanyafeng.recreation.R;
@@ -23,6 +30,16 @@ import com.fanyafeng.recreation.activity.ScanCodeActivity;
 import com.fanyafeng.recreation.util.FrescoDealPicUtil;
 import com.fanyafeng.recreation.util.FrescoUtil;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 public class FourFragment extends BaseFragment {
 
     private Toolbar toolbar;
@@ -32,6 +49,21 @@ public class FourFragment extends BaseFragment {
     private RelativeLayout layoutCreateBarCode;
     private RelativeLayout layoutOpenFile;
     private RelativeLayout layoutNote;
+    private RelativeLayout layoutUpdate;
+
+    private int fileLength;
+    private int DownedFileLength = 0;
+    private InputStream inputStream;
+    private URLConnection connection;
+    private OutputStream outputStream;
+
+    private NotificationManager manager;
+    private RemoteViews contentView;
+    private String packageName;
+    private PendingIntent contentIntent;
+
+    private int icon_download = android.R.drawable.stat_sys_download;
+    Notification mNotification = new Notification(icon_download, "开始下载更新", System.currentTimeMillis());
 
     public FourFragment() {
         // Required empty public constructor
@@ -78,10 +110,15 @@ public class FourFragment extends BaseFragment {
         layoutNote = (RelativeLayout) getActivity().findViewById(R.id.layoutNote);
         layoutNote.setOnClickListener(this);
 
+        layoutUpdate = (RelativeLayout) getActivity().findViewById(R.id.layoutUpdate);
+        layoutUpdate.setOnClickListener(this);
+
+
     }
 
     private void initData() {
-
+        manager = (NotificationManager) getContext().getSystemService(getActivity().NOTIFICATION_SERVICE);
+        packageName = getActivity().getPackageName();
     }
 
     @Override
@@ -103,6 +140,136 @@ public class FourFragment extends BaseFragment {
             case R.id.layoutNote:
                 startActivity(new Intent(getActivity(), NoteActivity.class));
                 break;
+            case R.id.layoutUpdate:
+                //添加在线更新
+                updateAPK();
+                break;
         }
+    }
+
+    private void updateAPK() {
+        DownLoadThread downLoadThread = new DownLoadThread();
+        downLoadThread.start();
+    }
+
+    private class DownLoadThread extends Thread {
+
+        @Override
+        public void run() {
+            DownFile("http://www.yinyuetai.com/mini/tfboys_android_10281005_1.4.0_100001000.apk");
+        }
+
+    }
+
+    private void DownFile(String durl) {
+        try {
+            URL url = new URL(durl);
+            connection = url.openConnection();
+            inputStream = connection.getInputStream();
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String downloadDir = Environment.getExternalStorageDirectory().getPath() + "/download";
+        File file1 = new File(downloadDir);
+        if (!file1.exists()) {
+            file1.mkdir();
+        }
+        String filePath = downloadDir + "/recreation.apk";
+        File file = new File(filePath);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Message message = Message.obtain();
+        try {
+            outputStream = new FileOutputStream(file);
+            fileLength = connection.getContentLength();
+            int bufferLen = 1024;
+            byte[] buffer = new byte[bufferLen];
+            message.what = 0;
+            progressHandler.sendMessage(message);
+            int count = 0;
+            while ((count = inputStream.read(buffer)) != -1) {
+                DownedFileLength += count;
+//                temp = (float) this.notificationProgress.getProgress() / (float) this.notificationProgress.getMax();
+                outputStream.write(buffer, 0, count);
+                Message message1 = Message.obtain();
+                message1.what = 1;
+                progressHandler.sendMessage(message1);
+            }
+            Message message2 = Message.obtain();
+            message2.what = 2;
+            progressHandler.sendMessage(message2);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Handler progressHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            if (!Thread.currentThread().isInterrupted()) {
+                switch (msg.what) {
+                    case 0:
+                        mNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+                        contentView = new RemoteViews(packageName, R.layout.notification_view_download);
+                        contentView.setTextViewText(R.id.notificationTitle, "开心一刻:开始下载...");
+                        contentView.setTextViewText(R.id.notificationPercent, "下载开始");
+                        contentView.setProgressBar(R.id.notificationProgress, fileLength, DownedFileLength, false);
+                        mNotification.contentView = contentView;
+                        mNotification.contentIntent = contentIntent;
+                        manager.notify(1, mNotification);
+                        break;
+                    case 1:
+                        mNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+                        contentView = new RemoteViews(packageName, R.layout.notification_view_download);
+                        contentView.setTextViewText(R.id.notificationTitle, "开心一刻:正在下载中...");
+                        // notification显示
+                        contentView.setTextViewText(R.id.notificationPercent, "下载中");
+
+                        contentView.setProgressBar(R.id.notificationProgress, fileLength, DownedFileLength, false);
+                        mNotification.contentView = contentView;
+                        mNotification.contentIntent = contentIntent;
+                        manager.notify(1, mNotification);
+                        break;
+                    case 2:
+                        mNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+                        contentView = new RemoteViews(packageName, R.layout.notification_view_download);
+                        contentView.setTextViewText(R.id.notificationTitle, "Download:开心一刻安装包下载完成");
+                        // notification显示
+                        contentView.setTextViewText(R.id.notificationPercent, "下载完成");
+                        contentView.setImageViewResource(R.id.notificationImage, R.mipmap.ic_launcher);
+                        mNotification.icon = R.mipmap.ic_launcher;
+                        contentView.setProgressBar(R.id.notificationProgress, fileLength, DownedFileLength, false);
+                        mNotification.contentView = contentView;
+                        mNotification.contentIntent = contentIntent;
+                        manager.notify(1, mNotification);
+
+                        installApk(Environment.getExternalStorageDirectory().getPath() + "/download" + "/recreation.apk");
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    };
+
+    // 安装apk文件
+    private void installApk(String filename) {
+        File file = new File(filename);
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction(Intent.ACTION_VIEW); // 浏览网页的Action(动作)
+        String type = "application/vnd.android.package-archive";
+        intent.setDataAndType(Uri.fromFile(file), type); // 设置数据类型
+        getContext().startActivity(intent);
     }
 }
