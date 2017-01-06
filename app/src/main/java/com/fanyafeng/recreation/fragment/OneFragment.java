@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,13 +51,6 @@ public class OneFragment extends BaseFragment {
 
     private FragmentDialogInterface fragmentDialogInterface;
 
-    private int rqcnt = 18;
-    private int page = 1;
-
-    private int r = 56712;
-
-    private String articles = "11793" + new Random().nextInt(10) + new Random().nextInt(10) + new Random().nextInt(10) + new Random().nextInt(10);
-
     public OneFragment() {
     }
 
@@ -91,6 +85,7 @@ public class OneFragment extends BaseFragment {
 
         fabMainToTop = (FloatingActionButton) getActivity().findViewById(R.id.fabMainToTop);
 
+        Log.d("time", "当前时间戳" + System.currentTimeMillis() / 1000);
     }
 
     private void initData() {
@@ -113,7 +108,6 @@ public class OneFragment extends BaseFragment {
 
             @Override
             public void onLoadMore(boolean isSilence) {
-                page++;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -139,9 +133,6 @@ public class OneFragment extends BaseFragment {
     }
 
     private void refreshData() {
-        page = 1;
-        rqcnt += 2;
-        r += new Random().nextInt(1000000);
         new AsyncTask<String, String, String>() {
             @Override
             protected void onPreExecute() {
@@ -157,19 +148,21 @@ public class OneFragment extends BaseFragment {
                     if (!StringUtil.isNullOrEmpty(s)) {
                         JSONObject jsonObject = new JSONObject(s);
                         if (jsonObject != null) {
-                            JSONArray items = jsonObject.optJSONArray("items");
-                            if (items != null) {
-                                int itemLength = items.length();
-                                for (int i = 0; i < itemLength; i++) {
-                                    MainItemBean mainItemBean = new MainItemBean(items.optJSONObject(i));
-                                    mainItemBeanList.add(mainItemBean);
-                                    articles = String.valueOf(mainItemBean.getId());
+                            String message = jsonObject.optString("message");//判断请求状态
+                            if (message.equals("success")) {
+                                JSONObject data = jsonObject.optJSONObject("data");
+                                if (data != null) {
+                                    JSONArray dataArray = data.optJSONArray("data");
+                                    int dataLength = dataArray.length();
+                                    for (int i = 0; i < dataLength; i++) {
+                                        MainItemBean mainItemBean = new MainItemBean(dataArray.optJSONObject(i));
+                                        mainItemBeanList.add(mainItemBean);
+                                    }
+                                    mainAdapter.notifyDataSetChanged();
+                                    return;
                                 }
-                                mainAdapter.notifyDataSetChanged();
                             }
-
                         }
-                        return;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -180,14 +173,12 @@ public class OneFragment extends BaseFragment {
 
             @Override
             protected String doInBackground(String... params) {
-                return NetUtil.httpGetUtil(getActivity(), Urls.ARTICLE_LIST_REFRESH + "&readarticles=[" + articles + "]&rqcnt=" + rqcnt + "&r=519baad91478749" + r);
+                return NetUtil.httpGetUtil(getActivity(), Urls.GET_ARTICLE_LIST + System.currentTimeMillis() / 1000 + Urls.GET_ARTICLE_LIST_END);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void loadMoreData() {
-        r += new Random().nextInt(1000000);
-        rqcnt += 2;
         new AsyncTask<String, String, String>() {
             @Override
             protected void onPreExecute() {
@@ -199,31 +190,24 @@ public class OneFragment extends BaseFragment {
                 super.onPostExecute(s);
                 try {
                     if (!StringUtil.isNullOrEmpty(s)) {
-                        articles = "11793" + new Random().nextInt(10) + new Random().nextInt(10) + new Random().nextInt(10) + new Random().nextInt(10) + ",";
                         JSONObject jsonObject = new JSONObject(s);
                         if (jsonObject != null) {
-                            JSONArray items = jsonObject.optJSONArray("items");
-                            if (items != null) {
-                                int itemLength = items.length();
-                                for (int i = 0; i < itemLength; i++) {
-                                    MainItemBean mainItemBean = new MainItemBean(items.optJSONObject(i));
-                                    mainItemBeanList.add(mainItemBean);
-                                    int t = new Random().nextInt(30);
-                                    if (t == 0) {
-                                        t += 1;
+                            String message = jsonObject.optString("message");//判断请求状态
+                            if (message.equals("success")) {
+                                JSONObject data = jsonObject.optJSONObject("data");
+                                if (data != null) {
+                                    JSONArray dataArray = data.optJSONArray("data");
+                                    int dataLength = dataArray.length();
+                                    for (int i = 0; i < dataLength; i++) {
+                                        MainItemBean mainItemBean = new MainItemBean(dataArray.optJSONObject(i));
+                                        mainItemBeanList.add(mainItemBean);
                                     }
-                                    if (i < t) {
-                                        articles += mainItemBean.getId();
-                                        if (i != t - 1) {
-                                            articles += ",";
-                                        }
-                                    }
+                                    mainAdapter.notifyDataSetChanged();
+                                    refreshMain.stopLoadMore();
+                                    return;
                                 }
-                                mainAdapter.notifyDataSetChanged();
-                                refreshMain.stopLoadMore();
                             }
                         }
-                        return;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -233,14 +217,13 @@ public class OneFragment extends BaseFragment {
 
             @Override
             protected String doInBackground(String... params) {
-                return NetUtil.httpGetUtil(getActivity(), Urls.ARTICLE_LIST_LOAD_MORE + "page=" + page + "&readarticles=[" + articles + "]&rqcnt=" + rqcnt + "&r=519baad91478749" + r);
+                return NetUtil.httpGetUtil(getActivity(), Urls.GET_ARTICLE_LIST + System.currentTimeMillis() / 1000 + Urls.GET_ARTICLE_LIST_END);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
     private void loadData() {
-        r += new Random().nextInt(1000000);
         new AsyncTask<String, String, String>() {
             @Override
             protected void onPreExecute() {
@@ -252,27 +235,23 @@ public class OneFragment extends BaseFragment {
                 super.onPostExecute(s);
                 try {
                     if (!StringUtil.isNullOrEmpty(s)) {
-                        articles = "11793" + new Random().nextInt(10) + new Random().nextInt(10) + new Random().nextInt(10) + new Random().nextInt(10) + ",";
                         JSONObject jsonObject = new JSONObject(s);
                         if (jsonObject != null) {
-                            JSONArray items = jsonObject.optJSONArray("items");
-                            if (items != null) {
-                                int itemLength = items.length();
-                                for (int i = 0; i < itemLength; i++) {
-                                    MainItemBean mainItemBean = new MainItemBean(items.optJSONObject(i));
-                                    mainItemBeanList.add(mainItemBean);
-                                    if (i < 8) {
-                                        articles += mainItemBean.getId();
-                                        if (i != 7) {
-                                            articles += ",";
-                                        }
+                            String message = jsonObject.optString("message");//判断请求状态
+                            if (message.equals("success")) {
+                                JSONObject data = jsonObject.optJSONObject("data");
+                                if (data != null) {
+                                    JSONArray dataArray = data.optJSONArray("data");
+                                    int dataLength = dataArray.length();
+                                    for (int i = 0; i < dataLength; i++) {
+                                        MainItemBean mainItemBean = new MainItemBean(dataArray.optJSONObject(i));
+                                        mainItemBeanList.add(mainItemBean);
                                     }
+                                    mainAdapter.notifyDataSetChanged();
+                                    return;
                                 }
-                                mainAdapter.notifyDataSetChanged();
-
                             }
                         }
-                        return;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -282,7 +261,7 @@ public class OneFragment extends BaseFragment {
 
             @Override
             protected String doInBackground(String... params) {
-                return NetUtil.httpGetUtil(getActivity(), Urls.ARTICLE_LIST_REFRESH + "&readarticles=[" + articles + "]&rqcnt=" + rqcnt + "&r=519baad91478749" + r);
+                return NetUtil.httpGetUtil(getActivity(), Urls.GET_ARTICLE_LIST + System.currentTimeMillis() / 1000 + Urls.GET_ARTICLE_LIST_END);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }

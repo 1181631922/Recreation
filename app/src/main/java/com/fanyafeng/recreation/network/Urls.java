@@ -23,6 +23,11 @@ public class Urls {
 
     //    糗百加载更多
     public final static String ARTICLE_LIST_LOAD_MORE = QIUBAI_BASE_URL + "/article/list/suggest?";
+
+    //获取内涵段子数据
+    public final static String GET_ARTICLE_LIST = "http://is.snssdk.com/neihan/stream/mix/v1/?mpic=1&webp=1&essence=1&content_type=-101&message_cursor=-1&longitude=116.4121485&latitude=39.9365054&am_longitude=116.41828&am_latitude=39.937848&am_city=%E5%8C%97%E4%BA%AC%E5%B8%82&am_loc_time=1483686438786&count=30&min_time=";
+
+    public final static String GET_ARTICLE_LIST_END = "&screen_width=1080&iid=7164180604&device_id=34822199408&ac=wifi&channel=baidu&aid=7&app_name=joke_essay&version_code=590&version_name=5.9.0&device_platform=android&ssmix=a&device_type=Nexus+5&device_brand=google&os_api=25&os_version=7.1&uuid=359250050588035&openudid=12645e537a2f0f25&manifest_version_code=590&resolution=1080*1776&dpi=480&update_version_code=5903";
     //    page=2&type=list&count=30&readarticles=[117944813,117938343,117944189,117944845,117938296,117937612,117938940,117937720]&rqcnt=22&r=519baad91478745407257";
     //    图片url
     public final static String PICTURE_ITEM = "http://pic.qiushibaike.com/system/pictures/";

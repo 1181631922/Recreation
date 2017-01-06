@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity {
     private ImageView tab_img4;
     private TextView tab_text4;
 
-    private int current = 2;
+    private int current = 0;
     private int currentTab = -1;
 
     @Override
@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
             current = savedInstanceState.getInt("tab");
             Log.d("main", "打印的current：" + current);
         } else {
-            current = 2;
+            current = 0;
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

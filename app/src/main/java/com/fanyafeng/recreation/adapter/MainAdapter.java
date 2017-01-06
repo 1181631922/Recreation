@@ -53,10 +53,11 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
         MainViewHolder mainViewHolder = holder;
         final MainItemBean mainItemBean = mainItemBeanList.get(position);
         mainViewHolder.tvMainItem.setText(mainItemBean.getContent());
-        if (!StringUtil.isNullOrEmpty(mainItemBean.getImage()) && !mainItemBean.getImage().equalsIgnoreCase("null")) {
+        mainViewHolder.sdvMainItem.setVisibility(View.GONE);
+        if (!StringUtil.isNullOrEmpty(mainItemBean.getImage())) {
             mainViewHolder.sdvMainItem.setVisibility(View.VISIBLE);
-            final String img = Urls.PICTURE_ITEM + String.valueOf(mainItemBean.getId()).substring(0, 5) + "/" + mainItemBean.getId() + "/medium/";
-            ControllerListenerUtil.setControllerListener(mainViewHolder.sdvMainItem, img + mainItemBean.getImage(),
+            final String img = mainItemBean.getImage();
+            ControllerListenerUtil.setControllerListener(mainViewHolder.sdvMainItem, img,
                     (int) (MyUtils.getScreenWidth(context) - DpPxConvert.dip2px(context, 60)));
             mainViewHolder.sdvMainItem.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -156,7 +156,7 @@ public class FourFragment extends BaseFragment {
 
         @Override
         public void run() {
-            DownFile("http://www.yinyuetai.com/mini/tfboys_android_10281005_1.4.0_100001000.apk");
+            DownFile("http://60.205.223.7:8080/Recreation/recreation_001.apk");
         }
 
     }

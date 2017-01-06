@@ -3,6 +3,8 @@ package com.fanyafeng.recreation.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fanyafeng.recreation.util.StringUtil;
+
 import org.json.JSONObject;
 
 /**
@@ -45,27 +47,53 @@ import org.json.JSONObject;
  */
 public class MainItemBean implements Parcelable {
 
-    private String image;
-    private int id;
-    private String content;
+    private String title;   //title有可能为空
+    private String image;   //http://p3.pstatp.com/需要加此前缀
+    private long id;        //id
+    private String content; //text 有就显示没有就不显示
+    private String mp4Url;  //mp4_url
 
     public MainItemBean(JSONObject jsonObject) {
-        setId(jsonObject.optInt("id"));
-        setImage(jsonObject.optString("image"));
-        setContent(jsonObject.optString("content"));
+        JSONObject group = jsonObject.optJSONObject("group");
+        if (group != null) {
+            setTitle(group.optString("title"));
+            setId(group.optLong("id"));
+            setContent(group.optString("content"));
+            if (!StringUtil.isNullOrEmpty(group.optString("mp4_url"))) {
+                setMp4Url(group.optString("mp4_url"));
+            }
+            JSONObject gifvideo = group.optJSONObject("gifvideo");
+            if (gifvideo != null) {
+                setMp4Url(group.optString("mp4_url"));
+            }
+
+            JSONObject middle_image = group.optJSONObject("middle_image");
+            if (middle_image != null) {
+                setImage("http://p3.pstatp.com/" + middle_image.optString("uri"));
+            }
+            JSONObject large_image = group.optJSONObject("large_image");
+            if (large_image != null) {
+                setImage("http://p3.pstatp.com/" + large_image.optString("uri"));
+            }
+        }
     }
 
+
     protected MainItemBean(Parcel in) {
+        title = in.readString();
         image = in.readString();
-        id = in.readInt();
+        id = in.readLong();
         content = in.readString();
+        mp4Url = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
         dest.writeString(image);
-        dest.writeInt(id);
+        dest.writeLong(id);
         dest.writeString(content);
+        dest.writeString(mp4Url);
     }
 
     @Override
@@ -85,6 +113,14 @@ public class MainItemBean implements Parcelable {
         }
     };
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getImage() {
         return image;
     }
@@ -93,11 +129,11 @@ public class MainItemBean implements Parcelable {
         this.image = image;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -109,12 +145,22 @@ public class MainItemBean implements Parcelable {
         this.content = content;
     }
 
+    public String getMp4Url() {
+        return mp4Url;
+    }
+
+    public void setMp4Url(String mp4Url) {
+        this.mp4Url = mp4Url;
+    }
+
     @Override
     public String toString() {
         return "MainItemBean{" +
-                "image='" + image + '\'' +
+                "title='" + title + '\'' +
+                ", image='" + image + '\'' +
                 ", id=" + id +
                 ", content='" + content + '\'' +
+                ", mp4Url='" + mp4Url + '\'' +
                 '}';
     }
 }
