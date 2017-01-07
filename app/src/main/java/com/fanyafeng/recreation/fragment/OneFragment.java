@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -85,7 +87,22 @@ public class OneFragment extends BaseFragment {
 
         fabMainToTop = (FloatingActionButton) getActivity().findViewById(R.id.fabMainToTop);
 
-        Log.d("time", "当前时间戳" + System.currentTimeMillis() / 1000);
+        Log.d("time", "当前时间戳" + Integer.parseInt(getVersion(getActivity()).replace(".", "")));
+        getVersion(getActivity()).replace(".", "");
+
+
+    }
+
+    public static String getVersion(Context context)//获取版本号
+    {
+        try {
+            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return pi.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return context.getString(R.string.version_unknown);
+        }
     }
 
     private void initData() {

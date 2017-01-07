@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fanyafeng.recreation.R;
@@ -27,8 +29,16 @@ import com.fanyafeng.recreation.activity.LoginActivity;
 import com.fanyafeng.recreation.activity.NoteActivity;
 import com.fanyafeng.recreation.activity.PlayVideoActivity;
 import com.fanyafeng.recreation.activity.ScanCodeActivity;
+import com.fanyafeng.recreation.bean.MainItemBean;
+import com.fanyafeng.recreation.network.NetUtil;
+import com.fanyafeng.recreation.network.Urls;
 import com.fanyafeng.recreation.util.FrescoDealPicUtil;
 import com.fanyafeng.recreation.util.FrescoUtil;
+import com.fanyafeng.recreation.util.StringUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -142,9 +152,49 @@ public class FourFragment extends BaseFragment {
                 break;
             case R.id.layoutUpdate:
                 //添加在线更新
-                updateAPK();
+                getNewVersion();
+//                updateAPK();
                 break;
         }
+    }
+
+    private void getNewVersion() {
+        new AsyncTask<String, String, String>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                try {
+                    if (!StringUtil.isNullOrEmpty(s)) {
+                        JSONObject jsonObject = new JSONObject(s);
+                        if (jsonObject != null) {
+                            String state = jsonObject.optString("state");//判断请求状态
+                            if (state.equals(NetUtil.STATE_OK)) {
+                                if (jsonObject.optBoolean("hasNewVersion")) {
+                                    Toast.makeText(getActivity(), "正在为您下载更新", Toast.LENGTH_SHORT).show();
+                                    updateAPK();
+                                } else {
+                                    Toast.makeText(getActivity(), "已是最新版本", Toast.LENGTH_SHORT).show();
+                                }
+                                return;
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                return NetUtil.httpGetUtil(getActivity(), "http://localhost:8080/recreation-1.0/version/hasNewVersion");
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void updateAPK() {
@@ -166,10 +216,14 @@ public class FourFragment extends BaseFragment {
             URL url = new URL(durl);
             connection = url.openConnection();
             inputStream = connection.getInputStream();
-        } catch (MalformedURLException e1) {
-            e1.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (inputStream == null) {
+            Message message3 = Message.obtain();
+            message3.what = 3;
+            progressHandler.sendMessage(message3);
+            return;
         }
         String downloadDir = Environment.getExternalStorageDirectory().getPath() + "/download";
         File file1 = new File(downloadDir);
@@ -254,6 +308,7 @@ public class FourFragment extends BaseFragment {
                         installApk(Environment.getExternalStorageDirectory().getPath() + "/download" + "/recreation.apk");
                         break;
                     case 3:
+                        Toast.makeText(getActivity(), "暂无版本更新", Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         break;

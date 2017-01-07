@@ -58,7 +58,12 @@ public class MainItemBean implements Parcelable {
         if (group != null) {
             setTitle(group.optString("title"));
             setId(group.optLong("id"));
-            setContent(group.optString("content"));
+            if (!StringUtil.isNullOrEmpty(group.optString("content"))) {
+                setContent(group.optString("content"));
+            } else {
+                setContent("此处为广告，已为您过滤");
+            }
+
             if (!StringUtil.isNullOrEmpty(group.optString("mp4_url"))) {
                 setMp4Url(group.optString("mp4_url"));
             }
