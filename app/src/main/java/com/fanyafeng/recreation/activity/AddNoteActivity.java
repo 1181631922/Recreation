@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
@@ -80,7 +81,6 @@ public class AddNoteActivity extends BaseActivity {
         initView();
         initData();
     }
-
 
     //初始化UI控件
     private void initView() {

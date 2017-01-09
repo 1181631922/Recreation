@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -71,6 +74,7 @@ public class FourFragment extends BaseFragment {
     private RemoteViews contentView;
     private String packageName;
     private PendingIntent contentIntent;
+    private FloatingActionButton fab;
 
     private int icon_download = android.R.drawable.stat_sys_download;
     Notification mNotification = new Notification(icon_download, "开始下载更新", System.currentTimeMillis());
@@ -101,6 +105,9 @@ public class FourFragment extends BaseFragment {
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_four);
         toolbar.setTitle("个人");
         toolbar.setLogo(R.drawable.simle_logo_04);
+
+        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(this);
 
         sdvPersonal = (SimpleDraweeView) getActivity().findViewById(R.id.sdvPersonal);
         FrescoUtil.loadPicOnNet(sdvPersonal, "http://news.mydrivers.com/img/20141111/aced68582b904db8a876ea21ffe15ca6.jpg");
@@ -135,6 +142,9 @@ public class FourFragment extends BaseFragment {
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
+            case R.id.fab://分享
+                shareAPK(view, "http://60.205.223.7:8080/Recreation/recreation_001.apk", null);
+                break;
             case R.id.layoutVideo:
                 startActivity(new Intent(getActivity(), FileExplorerActivity.class));
                 break;
@@ -158,6 +168,32 @@ public class FourFragment extends BaseFragment {
         }
     }
 
+    private void shareAPK(View view, String content, Uri uri) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        if (uri != null) {
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.setType("image/*");
+            shareIntent.putExtra("sms_body", content);
+        } else {
+            shareIntent.setType("text/plain");
+        }
+        shareIntent.putExtra(Intent.EXTRA_TEXT, content);
+        startActivity(Intent.createChooser(shareIntent, "分享给好友"));
+//        startActivity(shareIntent);
+    }
+
+    public static String getVersion(Context context)//获取版本号
+    {
+        try {
+            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return pi.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return context.getString(R.string.version_unknown);
+        }
+    }
+
     private void getNewVersion() {
         new AsyncTask<String, String, String>() {
             @Override
@@ -174,7 +210,7 @@ public class FourFragment extends BaseFragment {
                         if (jsonObject != null) {
                             String state = jsonObject.optString("state");//判断请求状态
                             if (state.equals(NetUtil.STATE_OK)) {
-                                if (jsonObject.optBoolean("hasNewVersion")) {
+                                if (jsonObject.optInt("version") > Integer.parseInt(getVersion(getActivity()).replace(".", ""))) {
                                     Toast.makeText(getActivity(), "正在为您下载更新", Toast.LENGTH_SHORT).show();
                                     updateAPK();
                                 } else {

@@ -55,14 +55,11 @@ public class MainItemBean implements Parcelable {
 
     public MainItemBean(JSONObject jsonObject) {
         JSONObject group = jsonObject.optJSONObject("group");
+        setContent("此处为广告，已为您过滤");
         if (group != null) {
             setTitle(group.optString("title"));
             setId(group.optLong("id"));
-            if (!StringUtil.isNullOrEmpty(group.optString("content"))) {
-                setContent(group.optString("content"));
-            } else {
-                setContent("此处为广告，已为您过滤");
-            }
+            setContent(group.optString("content"));
 
             if (!StringUtil.isNullOrEmpty(group.optString("mp4_url"))) {
                 setMp4Url(group.optString("mp4_url"));
