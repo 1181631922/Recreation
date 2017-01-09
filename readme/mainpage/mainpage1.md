@@ -11,6 +11,7 @@
 * 分析一下首页的接口，我把接口直接放到chrome里面可以请求下来，基本上排除了header的验证，剩下的就是分析接口的首次请求，刷新，加载更多<br>
 ![首页请求](https://github.com/1181631922/Recreation/blob/master/readme/mainpage/DF19396E-AA8B-4CF3-87FF-E6D508D864C5.png)<br>
 红色的标记的是不同点，经过验证确实是而且传的是当前的long型的秒时间。
+
 * 接下来就是分析数据结构。
 ```
 {
@@ -255,5 +256,6 @@ public MainItemBean(JSONObject jsonObject) {
     }
 ```
 这里只写了核心代码片。ok了，看一下效果
+
 * 运行效果
 ![效果图](https://github.com/1181631922/Recreation/blob/master/ScreenShots/videos1.gif)
