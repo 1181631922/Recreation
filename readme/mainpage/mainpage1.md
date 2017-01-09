@@ -259,5 +259,5 @@ public MainItemBean(JSONObject jsonObject) {
 ```
 这里只写了核心代码片。ok了，看一下效果
 
-* 运行效果
+* 运行效果<br>
 ![效果图](https://github.com/1181631922/Recreation/blob/master/ScreenShots/videos1.gif)
