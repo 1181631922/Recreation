@@ -19,7 +19,10 @@
 暂时只是对美食网站进行的数据的获取，后面很有可能加入视频网站的数据<br>
 先来看一下美食网站的效果图：<br>
 ![美食网站图片](https://github.com/1181631922/Recreation/blob/master/ScreenShots/food2.gif)
-
+### 3.项目中首页内涵段子的获取
+[请戳我查看首页抓包介绍](https://github.com/1181631922/Recreation/blob/master/readme/mainpage/mainpage1.md)<br>
+这里对内涵段子的首页进行了抓包，我用的是charles进行的抓包，对http和https都可以，下面是展示结果，感觉速度有点慢在虚拟机，实体机感觉还可以。<br>
+![首页展示](https://github.com/1181631922/Recreation/blob/master/ScreenShots/videos1.gif)
 
 
 
