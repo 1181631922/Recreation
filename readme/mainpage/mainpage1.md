@@ -7,6 +7,8 @@
 ### 2.相应的博客介绍
 * [1.使用Charles抓https请求包](http://blog.csdn.net/qq_23195583/article/details/52087189)
 * [2.通过抓包获取内涵段子的接口](http://blog.csdn.net/qq_23195583/article/details/54287167)
+
+
 ### 3.对内涵段子首页数据的抓取
 * 分析一下首页的接口，我把接口直接放到chrome里面可以请求下来，基本上排除了header的验证，剩下的就是分析接口的首次请求，刷新，加载更多<br>
 ![首页请求](https://github.com/1181631922/Recreation/blob/master/readme/mainpage/DF19396E-AA8B-4CF3-87FF-E6D508D864C5.png)<br>
