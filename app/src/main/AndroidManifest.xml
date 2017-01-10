@@ -88,6 +88,11 @@
             android:name=".activity.WebViewActivity"
             android:label="@string/title_activity_web_view"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.DonateActivity"
+            android:label="@string/title_activity_donate"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

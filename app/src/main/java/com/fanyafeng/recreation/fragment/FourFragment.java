@@ -28,6 +28,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fanyafeng.recreation.R;
 import com.fanyafeng.recreation.activity.CreateCodeActivity;
+import com.fanyafeng.recreation.activity.DonateActivity;
 import com.fanyafeng.recreation.activity.FileExplorerActivity;
 import com.fanyafeng.recreation.activity.LoginActivity;
 import com.fanyafeng.recreation.activity.NoteActivity;
@@ -67,6 +68,7 @@ public class FourFragment extends BaseFragment {
     private RelativeLayout layoutUpdate;
     private RelativeLayout layoutWeather;
     private RelativeLayout layoutClearCache;
+    private RelativeLayout layoutDonate;
 
     private int fileLength;
     private int DownedFileLength = 0;
@@ -139,6 +141,9 @@ public class FourFragment extends BaseFragment {
 
         layoutClearCache = (RelativeLayout) getActivity().findViewById(R.id.layoutClearCache);
         layoutClearCache.setOnClickListener(this);
+
+        layoutDonate = (RelativeLayout) getActivity().findViewById(R.id.layoutDonate);
+        layoutDonate.setOnClickListener(this);
     }
 
     private void initData() {
@@ -180,6 +185,9 @@ public class FourFragment extends BaseFragment {
                 break;
             case R.id.layoutClearCache:
                 Fresco.getImagePipeline().clearDiskCaches();
+                break;
+            case R.id.layoutDonate:
+                startActivity(new Intent(getActivity(), DonateActivity.class));
                 break;
         }
     }
