@@ -15,11 +15,13 @@ public class MainItemBean implements Parcelable {
     private long id;        //id
     private String content; //text 有就显示没有就不显示
     private String mp4Url;  //mp4_url
+    private int isGif;      //图片是gif为1，不是为0
 
     public MainItemBean(JSONObject jsonObject) {
         JSONObject group = jsonObject.optJSONObject("group");
         setContent("此处为广告，已为您过滤");
         if (group != null) {
+            setIsGif(group.optInt("is_gif"));
             setTitle(group.optString("title"));
             setId(group.optLong("id"));
             setContent(group.optString("content"));
@@ -50,6 +52,7 @@ public class MainItemBean implements Parcelable {
         id = in.readLong();
         content = in.readString();
         mp4Url = in.readString();
+        isGif = in.readInt();
     }
 
     @Override
@@ -59,6 +62,7 @@ public class MainItemBean implements Parcelable {
         dest.writeLong(id);
         dest.writeString(content);
         dest.writeString(mp4Url);
+        dest.writeInt(isGif);
     }
 
     @Override
@@ -118,6 +122,14 @@ public class MainItemBean implements Parcelable {
         this.mp4Url = mp4Url;
     }
 
+    public int getIsGif() {
+        return isGif;
+    }
+
+    public void setIsGif(int isGif) {
+        this.isGif = isGif;
+    }
+
     @Override
     public String toString() {
         return "MainItemBean{" +
@@ -126,6 +138,7 @@ public class MainItemBean implements Parcelable {
                 ", id=" + id +
                 ", content='" + content + '\'' +
                 ", mp4Url='" + mp4Url + '\'' +
+                ", isGif=" + isGif +
                 '}';
     }
 }

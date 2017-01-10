@@ -62,11 +62,13 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
             mainViewHolder.sdvMainItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ArrayList<String> list = new ArrayList<String>();
-                    list.add(img);
-                    Intent intent = new Intent(context, PreviewActivity.class);
-                    intent.putStringArrayListExtra("list", list);
-                    context.startActivity(intent);
+                    if (mainItemBean.getIsGif() != 1) {
+                        ArrayList<String> list = new ArrayList<String>();
+                        list.add(img);
+                        Intent intent = new Intent(context, PreviewActivity.class);
+                        intent.putStringArrayListExtra("list", list);
+                        context.startActivity(intent);
+                    }
                 }
             });
         } else {
