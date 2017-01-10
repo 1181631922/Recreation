@@ -10,6 +10,18 @@ import android.support.v7.app.AlertDialog;
  */
 public class Urls {
 
+        public final static String BASE_URL = "http://localhost:8080/recreation-1.0";
+//    public final static String BASE_URL = "http://60.205.223.7:8080/recreation-1.0";
+
+    //获取更新接口
+    public final static String GET_NEW_VERSION = BASE_URL + "/version/hasNewVersion";
+
+    //获取视频接口
+    public final static String GET_VIDEO_LIST = BASE_URL + "/videos/findVideoByPage?page=";
+
+    public final static String GET_NEW_APK = "http://60.205.223.7:8080/Recreation/app-release.apk";
+
+
     public final static String YINYUETAI = "http://mapiv2.yinyuetai.com/component/prefecture.json?&type=1";
     //    http://119.29.47.97/article/list/suggest?page=1&type=refresh&count=30&readarticles=[117917136,117916583]&rqcnt=13&r=519baad91478488978667
     //    http://m2.qiushibaike.com/article/list/suggest?page=1&type=refresh&count=30&readarticles=[117921665,117916048]&rqcnt=23&r=519baad91478488541893

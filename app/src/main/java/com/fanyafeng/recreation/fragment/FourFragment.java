@@ -32,6 +32,7 @@ import com.fanyafeng.recreation.activity.LoginActivity;
 import com.fanyafeng.recreation.activity.NoteActivity;
 import com.fanyafeng.recreation.activity.PlayVideoActivity;
 import com.fanyafeng.recreation.activity.ScanCodeActivity;
+import com.fanyafeng.recreation.activity.WebViewActivity;
 import com.fanyafeng.recreation.bean.MainItemBean;
 import com.fanyafeng.recreation.network.NetUtil;
 import com.fanyafeng.recreation.network.Urls;
@@ -63,6 +64,7 @@ public class FourFragment extends BaseFragment {
     private RelativeLayout layoutOpenFile;
     private RelativeLayout layoutNote;
     private RelativeLayout layoutUpdate;
+    private RelativeLayout layoutWeather;
 
     private int fileLength;
     private int DownedFileLength = 0;
@@ -130,7 +132,8 @@ public class FourFragment extends BaseFragment {
         layoutUpdate = (RelativeLayout) getActivity().findViewById(R.id.layoutUpdate);
         layoutUpdate.setOnClickListener(this);
 
-
+        layoutWeather = (RelativeLayout) getActivity().findViewById(R.id.layoutWeather);
+        layoutWeather.setOnClickListener(this);
     }
 
     private void initData() {
@@ -143,7 +146,7 @@ public class FourFragment extends BaseFragment {
         super.onClick(view);
         switch (view.getId()) {
             case R.id.fab://分享
-                shareAPK(view, "http://60.205.223.7:8080/Recreation/recreation_001.apk", null);
+                shareAPK(view, Urls.GET_NEW_VERSION, null);
                 break;
             case R.id.layoutVideo:
                 startActivity(new Intent(getActivity(), FileExplorerActivity.class));
@@ -159,6 +162,9 @@ public class FourFragment extends BaseFragment {
                 break;
             case R.id.layoutNote:
                 startActivity(new Intent(getActivity(), NoteActivity.class));
+                break;
+            case R.id.layoutWeather:
+                startActivity(new Intent(getActivity(), WebViewActivity.class));
                 break;
             case R.id.layoutUpdate:
                 //添加在线更新
@@ -228,7 +234,7 @@ public class FourFragment extends BaseFragment {
 
             @Override
             protected String doInBackground(String... params) {
-                return NetUtil.httpGetUtil(getActivity(), "http://localhost:8080/recreation-1.0/version/hasNewVersion");
+                return NetUtil.httpGetUtil(getActivity(), Urls.GET_NEW_VERSION);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }

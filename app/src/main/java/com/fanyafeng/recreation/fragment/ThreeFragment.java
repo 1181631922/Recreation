@@ -18,6 +18,7 @@ import com.fanyafeng.recreation.R;
 import com.fanyafeng.recreation.adapter.VideoAdapter;
 import com.fanyafeng.recreation.bean.VideoBean;
 import com.fanyafeng.recreation.network.NetUtil;
+import com.fanyafeng.recreation.network.Urls;
 import com.fanyafeng.recreation.refreshview.XRefreshView;
 import com.fanyafeng.recreation.util.StringUtil;
 
@@ -96,6 +97,9 @@ public class ThreeFragment extends Fragment {
         refreshVideo = (XRefreshView) getActivity().findViewById(R.id.refreshVideo);
         refreshVideo.setPullLoadEnable(true);
         refreshVideo.setAutoLoadMore(true);
+
+        refreshVideo.setPullRefreshEnable(false);
+
         rvVideo = (RecyclerView) getActivity().findViewById(R.id.rvVideo);
         rvVideo.setLayoutManager(new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false));
         videoAdapter = new VideoAdapter(getActivity(), videoBeanList);
@@ -140,7 +144,7 @@ public class ThreeFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... param) {
-            return NetUtil.httpGetUtil(getActivity(), "http://localhost:8080/recreation-1.0/videos/findVideoByPage?page=0");
+            return NetUtil.httpGetUtil(getActivity(), Urls.GET_VIDEO_LIST + 0);
         }
     }
 

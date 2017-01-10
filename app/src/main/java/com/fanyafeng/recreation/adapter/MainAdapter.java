@@ -63,7 +63,7 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
                 @Override
                 public void onClick(View view) {
                     ArrayList<String> list = new ArrayList<String>();
-                    list.add(img + mainItemBean.getImage());
+                    list.add(img);
                     Intent intent = new Intent(context, PreviewActivity.class);
                     intent.putStringArrayListExtra("list", list);
                     context.startActivity(intent);

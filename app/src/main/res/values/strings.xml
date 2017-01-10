@@ -109,4 +109,5 @@
     <string name="title_activity_note">备忘录</string>
     <string name="title_activity_add_note">添加备忘录</string>
     <string name="title_activity_menu_detail">菜单制作详情</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
 </resources>
