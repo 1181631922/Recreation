@@ -164,7 +164,9 @@ public class FourFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), NoteActivity.class));
                 break;
             case R.id.layoutWeather:
-                startActivity(new Intent(getActivity(), WebViewActivity.class));
+                Intent weatherIntent = new Intent(getActivity(), WebViewActivity.class);
+                weatherIntent.putExtra("url", "http://e.weather.com.cn/d/index/101010100.shtml");
+                startActivity(weatherIntent);
                 break;
             case R.id.layoutUpdate:
                 //添加在线更新
@@ -194,7 +196,6 @@ public class FourFragment extends BaseFragment {
             PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return pi.versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return context.getString(R.string.version_unknown);
         }

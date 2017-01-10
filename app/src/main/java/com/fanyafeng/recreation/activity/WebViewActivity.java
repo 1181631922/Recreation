@@ -17,6 +17,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.fanyafeng.recreation.R;
 import com.fanyafeng.recreation.BaseActivity;
@@ -28,9 +29,9 @@ import java.net.URISyntaxException;
 
 //需要搭配Baseactivity，这里默认为Baseactivity,并且默认BaseActivity为包名的根目录
 public class WebViewActivity extends BaseActivity implements CustomWebView.JSInterface {
-    private Button btnFull;
     private CustomWebView webView;
     private String url;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +39,18 @@ public class WebViewActivity extends BaseActivity implements CustomWebView.JSInt
         setContentView(R.layout.activity_web_view);
         //这里默认使用的是toolbar的左上角标题，如果需要使用的标题为中心的采用下方注释的代码，将此注释掉即可
         title = getString(R.string.title_activity_web_view);
-        url = "http://hc.yinyuetai.com/uploads/videos/common/02AD01590020D7DB1D4D23856931882A.mp4?sc=ca8323d5262b43bb&br=781&rd=Android";
+        url = getIntent().getStringExtra("url");
         initView();
         initData();
+    }
+
+    public void updateProgress(int progress) {
+        if (progress == progressBar.getMax() || progress == 0) {
+            progressBar.setVisibility(View.INVISIBLE);
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        progressBar.setProgress(progress);
     }
 
     @Override
@@ -51,8 +61,11 @@ public class WebViewActivity extends BaseActivity implements CustomWebView.JSInt
     //初始化UI控件
     @SuppressLint("JavascriptInterface")
     private void initView() {
-        btnFull = (Button) findViewById(R.id.btnFull);
-        btnFull.setOnClickListener(this);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar.bringToFront();
+        progressBar.setMax(100);
+        progressBar.setProgress(0);
+        progressBar.setIndeterminate(false);
         webView = (CustomWebView) findViewById(R.id.webView);
 
         webView = (CustomWebView) findViewById(R.id.webView);
@@ -69,11 +82,12 @@ public class WebViewActivity extends BaseActivity implements CustomWebView.JSInt
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
+                toolbar.setTitle(title);
             }
 
             @Override
             public void onProgressChanged(WebView view, int progress) {
-//                WebViewActivity.this.updateProgress(progress);
+                WebViewActivity.this.updateProgress(progress);
             }
 
 
@@ -110,12 +124,17 @@ public class WebViewActivity extends BaseActivity implements CustomWebView.JSInt
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.btnFull:
-                FitScreenUtil.FixScreenXY(webView, MyUtils.getScreenWidth(this), MyUtils.getScreenHeight(this));
-                break;
-            case R.id.btnCloseInput:
-                hideSoftKeyboard();
-                break;
+
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            hideSoftKeyboard();
+            super.onBackPressed();
         }
     }
 
