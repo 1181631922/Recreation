@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fanyafeng.recreation.R;
 import com.fanyafeng.recreation.activity.CreateCodeActivity;
@@ -65,6 +66,7 @@ public class FourFragment extends BaseFragment {
     private RelativeLayout layoutNote;
     private RelativeLayout layoutUpdate;
     private RelativeLayout layoutWeather;
+    private RelativeLayout layoutClearCache;
 
     private int fileLength;
     private int DownedFileLength = 0;
@@ -134,6 +136,9 @@ public class FourFragment extends BaseFragment {
 
         layoutWeather = (RelativeLayout) getActivity().findViewById(R.id.layoutWeather);
         layoutWeather.setOnClickListener(this);
+
+        layoutClearCache = (RelativeLayout) getActivity().findViewById(R.id.layoutClearCache);
+        layoutClearCache.setOnClickListener(this);
     }
 
     private void initData() {
@@ -172,6 +177,9 @@ public class FourFragment extends BaseFragment {
                 //添加在线更新
                 getNewVersion();
 //                updateAPK();
+                break;
+            case R.id.layoutClearCache:
+                Fresco.getImagePipeline().clearDiskCaches();
                 break;
         }
     }
