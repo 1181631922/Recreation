@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class PlayVideoActivity extends BaseActivity {
     private IjkVideoView videoPlayView;
     private String videoUrl;
     private AndroidMediaController androidMediaController;
+    boolean isControllerShow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,21 @@ public class PlayVideoActivity extends BaseActivity {
 
         videoPlayView.setVideoPath(videoUrl);
         videoPlayView.start();
+
+//        videoPlayView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (toolbar.isShown()) {
+//                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//                    androidMediaController.hide();
+//                } else {
+//                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//                    androidMediaController.show();
+//                }
+//
+//                return false;
+//            }
+//        });
     }
 
     //初始化数据
