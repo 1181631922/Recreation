@@ -185,6 +185,7 @@ public class FourFragment extends BaseFragment {
                 break;
             case R.id.layoutClearCache:
                 Fresco.getImagePipeline().clearDiskCaches();
+                Toast.makeText(getActivity(), "缓存清理成功", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.layoutDonate:
                 startActivity(new Intent(getActivity(), DonateActivity.class));

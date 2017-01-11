@@ -10,10 +10,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fanyafeng.recreation.R;
 import com.fanyafeng.recreation.BaseActivity;
@@ -230,6 +232,25 @@ public class MainActivity extends BaseActivity {
 
     //初始化数据
     private void initData() {
+    }
+
+    private boolean firstBack = false;
+
+    @Override
+    public void onBackPressed() {
+
+        if (!firstBack) {
+            Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT).show();
+            firstBack = true;
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        firstBack = false;
+        return super.dispatchTouchEvent(ev);
     }
 
 }
