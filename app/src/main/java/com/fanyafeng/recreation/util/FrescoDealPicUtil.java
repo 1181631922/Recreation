@@ -218,7 +218,7 @@ public class FrescoDealPicUtil {
         return bitMap[0];
     }
 
-    private static void download(Context context, String url) {
+    public static void download(Context context, String url) {
 
         ImageRequest request = ImageRequestBuilder.
                 newBuilderWithSource(Uri.parse(url))
@@ -228,6 +228,16 @@ public class FrescoDealPicUtil {
                 .build();
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
         imagePipeline.prefetchToDiskCache(request, context);
+    }
+
+    public static boolean isExist(String imgUrl) {
+        FileBinaryResource fileBinaryResource = (FileBinaryResource) Fresco.getImagePipelineFactory()
+                .getMainFileCache().getResource(new SimpleCacheKey(imgUrl));
+        if (fileBinaryResource == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**

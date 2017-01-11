@@ -23,6 +23,8 @@ import com.fanyafeng.recreation.fragment.FourFragment;
 import com.fanyafeng.recreation.fragment.OneFragment;
 import com.fanyafeng.recreation.fragment.ThreeFragment;
 import com.fanyafeng.recreation.fragment.TwoFragment;
+import com.fanyafeng.recreation.util.FrescoDealPicUtil;
+import com.fanyafeng.recreation.util.FrescoUtil;
 
 //需要搭配baseactivity，这里默认为baseactivity,并且默认Baseactivity为包名的根目录
 public class MainActivity extends BaseActivity {
@@ -232,6 +234,8 @@ public class MainActivity extends BaseActivity {
 
     //初始化数据
     private void initData() {
+        //获取开屏图
+        FrescoDealPicUtil.download(this, "http://upload-images.jianshu.io/upload_images/2155432-43f1b0fe0916918d.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240");
     }
 
     private boolean firstBack = false;

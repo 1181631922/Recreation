@@ -111,4 +111,5 @@
     <string name="title_activity_menu_detail">菜单制作详情</string>
     <string name="title_activity_web_view">WebViewActivity</string>
     <string name="title_activity_donate">捐赠一杯咖啡</string>
+    <string name="title_activity_start">StartActivity</string>
 </resources>
