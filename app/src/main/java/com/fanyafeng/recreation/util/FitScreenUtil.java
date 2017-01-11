@@ -3,9 +3,6 @@ package com.fanyafeng.recreation.util;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by fanyafeng on 2015/10/15/0015.
- */
 public class FitScreenUtil {
     /**
      * 通过长宽比去适应不同尺寸的手机
