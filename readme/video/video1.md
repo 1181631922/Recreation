@@ -6,6 +6,7 @@
 * [2.使用ijkplayer进行视频播放](http://blog.csdn.net/qq_23195583/article/details/52621601)
 * [3.Fresco进行图片的裁剪以及加水印](http://blog.csdn.net/qq_23195583/article/details/53582706)
 * [4.视频列表的android客户端和springmvc服务端实现（三）](http://blog.csdn.net/qq_23195583/article/details/54343336)
+
 ### 2.这里简单贴一下播放视频的activity的一些重要代码<br>
 ```
 //去掉系统标题栏
