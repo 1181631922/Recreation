@@ -1,5 +1,6 @@
 package com.fanyafeng.recreation.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -75,6 +76,12 @@ public class MainActivity extends BaseActivity {
 
         initView();
         initData();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 
     @Override

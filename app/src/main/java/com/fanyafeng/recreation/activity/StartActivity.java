@@ -49,6 +49,7 @@ public class StartActivity extends BaseActivity {
     //初始化UI控件
     private void initView() {
         sdvStartImg = (SimpleDraweeView) findViewById(R.id.sdvStartImg);
+        sdvStartImg.setOnClickListener(this);
         fullVideoView = (FullScreenVideoView) findViewById(R.id.fullVideoView);
     }
 
@@ -87,4 +88,14 @@ public class StartActivity extends BaseActivity {
         }, 3000);
     }
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.sdvStartImg:
+                // TODO: 17/1/12 dosomething such as ads...
+
+                break;
+        }
+    }
 }
