@@ -9,15 +9,44 @@
     tools:showIn="@layout/activity_first_start">
 
     <!--需要v4或者v7包，不过一般as创建的工程都默认存在,此处采用滑动嵌套布局，为了解决滑动冲突-->
-    <FrameLayout
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/startViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/startViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/avatar_round_bg"
+        android:text="跳过"
+        android:textColor="@android:color/white"
+        android:textSize="14dp" />
+
+    <Button
+        android:id="@+id/btnFirstStart"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="45dp"
+        android:background="@drawable/rounded_button_bg"
+        android:text="开始"
+        android:visibility="gone"
+        android:textColor="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/iv_movement_circle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:scaleType="matrix"
+        android:src="@drawable/shape_circle" />
 
 
-    </FrameLayout>
 </RelativeLayout>

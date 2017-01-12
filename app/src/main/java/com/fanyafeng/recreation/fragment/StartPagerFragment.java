@@ -3,12 +3,16 @@ package com.fanyafeng.recreation.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.fanyafeng.recreation.R;
+import com.fanyafeng.recreation.util.FrescoUtil;
 
 public class StartPagerFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -17,6 +21,8 @@ public class StartPagerFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private Button btnFirstStart;
+    private SimpleDraweeView sdvStart;
 
     public StartPagerFragment() {
         // Required empty public constructor
@@ -43,8 +49,20 @@ public class StartPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_start_pager, container, false);
+        View view = inflater.inflate(R.layout.fragment_start_pager, container, false);
+        sdvStart = (SimpleDraweeView) view.findViewById(R.id.sdvStart);
+//        btnFirstStart = (Button) view.findViewById(R.id.btnFirstStart);
+//        if (mParam1.equals("2")) {
+//            btnFirstStart.bringToFront();
+//            btnFirstStart.setVisibility(View.VISIBLE);
+//        }
+        return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        FrescoUtil.loadGifPicInApp(sdvStart, R.drawable.start);
 
+    }
 }
