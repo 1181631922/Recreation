@@ -63,7 +63,7 @@ public class StartActivity extends BaseActivity {
 
         mediaController = new MediaController(this);
         fullVideoView.setMediaController(mediaController);
-        if (!true) {
+        if (true) {
             sdvStartImg.setVisibility(View.GONE);
             fullVideoView.setVideoURI(Uri.parse("android.resource://com.fanyafeng.recreation/" + R.raw.login_video));
             fullVideoView.start();
@@ -84,7 +84,7 @@ public class StartActivity extends BaseActivity {
                 startActivity(new Intent(StartActivity.this, FirstStartActivity.class));
                 finish();
             }
-        }, 1000);
+        }, 3000);
     }
 
 }
