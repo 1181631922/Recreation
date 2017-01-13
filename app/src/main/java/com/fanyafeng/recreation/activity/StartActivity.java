@@ -62,6 +62,7 @@ public class StartActivity extends BaseActivity {
 
         initView();
         initData();
+
         new GetStartInfoTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -70,6 +71,7 @@ public class StartActivity extends BaseActivity {
         sdvStartImg = (SimpleDraweeView) findViewById(R.id.sdvStartImg);
         sdvStartImg.setOnClickListener(this);
         fullVideoView = (FullScreenVideoView) findViewById(R.id.fullVideoView);
+        FrescoUtil.loadGifPicInApp(sdvStartImg, R.drawable.start, width / height);
     }
 
     //初始化数据
@@ -77,20 +79,17 @@ public class StartActivity extends BaseActivity {
 
         mediaController = new MediaController(this);
         fullVideoView.setMediaController(mediaController);
-//        if (true) {
-//            sdvStartImg.setVisibility(View.GONE);
-//            fullVideoView.setVideoURI(Uri.parse("android.resource://com.fanyafeng.recreation/" + R.raw.login_video));
-//            fullVideoView.start();
-//            fullVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//                @Override
-//                public void onPrepared(MediaPlayer mp) {
-//                    mp.start();
-//                    mp.setLooping(true);
-//                }
-//            });
-//        } else {
-//
-//        }
+
+//        sdvStartImg.setVisibility(View.GONE);
+//        fullVideoView.setVideoURI(Uri.parse("android.resource://com.fanyafeng.recreation/" + R.raw.login_video));
+//        fullVideoView.start();
+//        fullVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared(MediaPlayer mp) {
+//                mp.start();
+//                mp.setLooping(true);
+//            }
+//        });
 
     }
 
@@ -98,12 +97,6 @@ public class StartActivity extends BaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-//            case R.id.sdvStartImg:
-//                // TODO: 17/1/12 dosomething such as ads...
-//                Intent intent = new Intent(this, MainActivity.class);
-//                intent.putExtra("url", "http://www.baidu.com");
-//                startActivity(intent);
-//                break;
         }
     }
 
@@ -139,7 +132,9 @@ public class StartActivity extends BaseActivity {
                     showLocalImg();
                 }
             }
+            showLocalImg();
         }
+
 
         @Override
         protected String doInBackground(String... param) {
@@ -214,5 +209,12 @@ public class StartActivity extends BaseActivity {
     private void showLocalImg() {
         float aspectRatio = width / height;
         FrescoUtil.loadGifPicInApp(sdvStartImg, R.drawable.start, aspectRatio);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(StartActivity.this, MainActivity.class));
+                finish();
+            }
+        }, seconds);
     }
 }
