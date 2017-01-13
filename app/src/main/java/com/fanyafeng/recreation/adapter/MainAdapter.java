@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fanyafeng.recreation.R;
+import com.fanyafeng.recreation.activity.PreGifviewActivity;
 import com.fanyafeng.recreation.activity.PreviewActivity;
 import com.fanyafeng.recreation.bean.MainItemBean;
 import com.fanyafeng.recreation.network.Urls;
@@ -67,6 +68,10 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
                         list.add(img);
                         Intent intent = new Intent(context, PreviewActivity.class);
                         intent.putStringArrayListExtra("list", list);
+                        context.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(context, PreGifviewActivity.class);
+                        intent.putExtra("url", img);
                         context.startActivity(intent);
                     }
                 }

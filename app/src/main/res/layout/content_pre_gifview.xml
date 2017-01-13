@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ee777777"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.fanyafeng.recreation.activity.PreGifviewActivity"
+    tools:showIn="@layout/activity_pre_gifview">
+
+    <!--需要v4或者v7包，不过一般as创建的工程都默认存在,此处采用滑动嵌套布局，为了解决滑动冲突-->
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdvGifView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true" />
+</RelativeLayout>

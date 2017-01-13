@@ -104,7 +104,12 @@
             android:name=".activity.FirstStartActivity"
             android:label="@string/title_activity_first_start"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.PreGifviewActivity"
+            android:label="@string/title_activity_pre_gifview"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
