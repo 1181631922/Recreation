@@ -85,16 +85,16 @@ public class StartActivity extends BaseActivity {
         mediaController = new MediaController(this);
         fullVideoView.setMediaController(mediaController);
 
-//        sdvStartImg.setVisibility(View.GONE);
-//        fullVideoView.setVideoURI(Uri.parse("android.resource://com.fanyafeng.recreation/" + R.raw.login_video));
-//        fullVideoView.start();
-//        fullVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//            @Override
-//            public void onPrepared(MediaPlayer mp) {
-//                mp.start();
-//                mp.setLooping(true);
-//            }
-//        });
+        sdvStartImg.setVisibility(View.GONE);
+        fullVideoView.setVideoURI(Uri.parse("android.resource://com.fanyafeng.recreation/" + R.raw.login_video));
+        fullVideoView.start();
+        fullVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+                mp.setLooping(true);
+            }
+        });
 
     }
 
