@@ -82,9 +82,7 @@ public class ThreeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
-//        initData();
-//        Thread thread = new Thread(new LoadThread());
-//        thread.start();
+        initData();
 
         new RecommandWineTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }

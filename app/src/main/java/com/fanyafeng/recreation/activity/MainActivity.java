@@ -20,12 +20,16 @@ import android.widget.Toast;
 
 import com.fanyafeng.recreation.R;
 import com.fanyafeng.recreation.BaseActivity;
+import com.fanyafeng.recreation.bean.StartBean;
 import com.fanyafeng.recreation.fragment.FourFragment;
 import com.fanyafeng.recreation.fragment.OneFragment;
 import com.fanyafeng.recreation.fragment.ThreeFragment;
 import com.fanyafeng.recreation.fragment.TwoFragment;
 import com.fanyafeng.recreation.util.FrescoDealPicUtil;
 import com.fanyafeng.recreation.util.FrescoUtil;
+import com.fanyafeng.recreation.util.StringUtil;
+
+import java.util.ArrayList;
 
 //需要搭配baseactivity，这里默认为baseactivity,并且默认Baseactivity为包名的根目录
 public class MainActivity extends BaseActivity {
@@ -54,6 +58,8 @@ public class MainActivity extends BaseActivity {
     private int current = 0;
     private int currentTab = -1;
 
+    private ArrayList<StartBean> startBeanList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -64,7 +70,11 @@ public class MainActivity extends BaseActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        getUrl();
+        if (getIntent().getParcelableArrayListExtra("startBeanList") != null) {
+            startBeanList = getIntent().getParcelableArrayListExtra("startBeanList");
+            preLoadPic(startBeanList);
+        }
 
         title = getString(R.string.app_name);
         isSetLogo = true;
@@ -82,6 +92,7 @@ public class MainActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+        getUrl();
     }
 
     @Override
@@ -90,6 +101,20 @@ public class MainActivity extends BaseActivity {
             outState.putInt("tab", current);
         }
         super.onSaveInstanceState(outState);
+    }
+
+    private void getUrl() {
+        if (!StringUtil.isNullOrEmpty(getIntent().getStringExtra("url"))) {
+            Intent intent = new Intent(this, WebViewActivity.class);
+            intent.putExtra("url", getIntent().getStringExtra("url"));
+            startActivity(intent);
+        }
+    }
+
+    private void preLoadPic(ArrayList<StartBean> startBeanList) {
+        for (int i = 0; i < startBeanList.size(); i++) {
+            FrescoDealPicUtil.download(this, startBeanList.get(i).getImgUrl());
+        }
     }
 
 

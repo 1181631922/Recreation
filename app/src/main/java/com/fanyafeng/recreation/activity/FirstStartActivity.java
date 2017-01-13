@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 
 import com.fanyafeng.recreation.R;
 import com.fanyafeng.recreation.BaseActivity;
+import com.fanyafeng.recreation.bean.StartBean;
 import com.fanyafeng.recreation.fragment.StartPagerFragment;
 import com.fanyafeng.recreation.util.MyUtils;
 
@@ -41,9 +42,10 @@ public class FirstStartActivity extends BaseActivity {
     private ImageView ivMovementCircle;
     private static int[] startPage = new
             int[]{R.drawable.start_one, R.drawable.start_two, R.drawable.start_three, R.drawable.start_four, R.drawable.start_five};
-    private int totalSize = 5;
+    private int totalSize = startPage.length;
     private RelativeLayout layoutStartRoot;
     private float moveCircleY = 0;
+    private ArrayList<StartBean> startBeanList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,12 @@ public class FirstStartActivity extends BaseActivity {
         //这里默认使用的是toolbar的左上角标题，如果需要使用的标题为中心的采用下方注释的代码，将此注释掉即可
         title = getString(R.string.title_activity_first_start);
         isShowToolbar = false;
+
+        if (getIntent().getParcelableArrayListExtra("startBeanList") != null) {
+            startBeanList = getIntent().getParcelableArrayListExtra("startBeanList");
+            totalSize = startBeanList.size();
+        }
+
         initView();
         initData();
         initCursorPosition();
@@ -146,7 +154,12 @@ public class FirstStartActivity extends BaseActivity {
         public Fragment getItem(int position) {
             Bundle bundle = new Bundle();
             bundle.putString("param1", String.valueOf(position));
-            bundle.putInt("param2", startPage[position]);
+            if (startBeanList.size() > 0) {
+                bundle.putString("param3", startBeanList.get(position).getImgUrl());
+            } else {
+                bundle.putInt("param2", startPage[position]);
+            }
+
             Fragment fragment = fragmentList.get(position);
             fragment.setArguments(bundle);
             return fragment;

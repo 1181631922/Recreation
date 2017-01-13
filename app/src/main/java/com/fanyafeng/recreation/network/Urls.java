@@ -10,7 +10,7 @@ import android.support.v7.app.AlertDialog;
  */
 public class Urls {
 
-        public final static String BASE_URL = "http://localhost:8080/recreation-1.0";
+    public final static String BASE_URL = "http://localhost:8080/recreation-1.0";
 //    public final static String BASE_URL = "http://60.205.223.7:8080/recreation-1.0";
 
     //获取更新接口
@@ -18,6 +18,9 @@ public class Urls {
 
     //获取视频接口
     public final static String GET_VIDEO_LIST = BASE_URL + "/videos/findVideoByPage?page=";
+
+    //获取启动信息接口
+    public final static String GET_START_INFO = BASE_URL + "/start/getStartInfo";
 
     public final static String GET_NEW_APK = "http://60.205.223.7:8080/Recreation/app-release.apk";
 
