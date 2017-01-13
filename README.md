@@ -27,7 +27,9 @@
 我这里使用的是springmvc搭建的后台，数据时抓包音悦台的，声明没有商用，仅仅是个人技术研究，这里上一下客户端的截图吧。[戳这里查看服务器和客户端的交互](https://github.com/1181631922/Recreation/blob/master/readme/video/video1.md)<br>
 ![视频页面展示](https://github.com/1181631922/Recreation/blob/master/readme/video/videos2.gif)
 ### 5.项目中首次启动轮播图<br>
-一般一个app首次进入的时候都有个引导图，横向轮播图居多吧，我这里也是用的横向轮播图，可以抽出来，这里基本上用totalpage进行配置基本不用改，但是当启动图少于两张的时候需要处理下，不会崩，[查看轮播图的详细使用以及讲解](https://github.com/1181631922/Recreation/blob/master/readme/start/start1.md)<br>
+一般一个app首次进入的时候都有个引导图，横向轮播图居多吧，我这里也是用的横向轮播图，可以抽出来，这里基本上用totalpage进行配置基本不用改，但是当启动图少于两张的时候需要处理下，不会崩<br>
+* [1.查看轮播图的详细使用以及讲解一](https://github.com/1181631922/Recreation/blob/master/readme/start/start1.md)<br>
+* [2.查看轮播图的详细使用以及讲解二](https://github.com/1181631922/Recreation/blob/master/readme/start/start2.md)<br>
 ![效果展示图](https://github.com/1181631922/Recreation/blob/master/readme/start/start.gif)
 
 

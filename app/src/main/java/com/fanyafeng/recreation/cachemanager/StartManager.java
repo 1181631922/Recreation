@@ -26,5 +26,17 @@ public class StartManager {
         return sharedPreferences.getString(keyName, "");
     }
 
+    public static void setFirstState(Context context, String keyName, boolean value) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Start.START_INFO, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(keyName, !value);
+        editor.commit();
+    }
+
+    public static boolean getFirstState(Context context, String keyName) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Start.START_INFO, Context.MODE_PRIVATE);
+        return !sharedPreferences.getBoolean(keyName, false);
+    }
+
 
 }

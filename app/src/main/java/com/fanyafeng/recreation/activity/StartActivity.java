@@ -55,15 +55,20 @@ public class StartActivity extends BaseActivity {
         //这里默认使用的是toolbar的左上角标题，如果需要使用的标题为中心的采用下方注释的代码，将此注释掉即可
         title = getString(R.string.title_activity_start);
         isShowToolbar = false;
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);视频的话不展示，图片还是展示效果比较好
 
         width = MyUtils.getScreenWidth(this);
         height = MyUtils.getScreenHeight(this);
 
         initView();
         initData();
-
-        new GetStartInfoTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        if (StartManager.getFirstState(this, Start.START_FIRST)) {
+            startActivity(new Intent(this, FirstStartActivity.class));
+            finish();
+            StartManager.setFirstState(this, Start.START_FIRST, false);
+        } else {
+            new GetStartInfoTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
     //初始化UI控件

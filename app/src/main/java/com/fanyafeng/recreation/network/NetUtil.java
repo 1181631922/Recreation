@@ -57,7 +57,7 @@ public class NetUtil {
     private static final String TAG = "NetUtils";
 
     static {
-        mOkHttpClient = new OkHttpClient.Builder().connectTimeout(3, TimeUnit.SECONDS).build();
+        mOkHttpClient = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).build();
 //        mOkHttpClient.connectTimeoutMillis().setConnectTimeout();
     }
 
