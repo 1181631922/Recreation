@@ -31,5 +31,6 @@
 * [1.查看轮播图的详细使用以及讲解一](https://github.com/1181631922/Recreation/blob/master/readme/start/start1.md)<br>
 * [2.查看轮播图的详细使用以及讲解二](https://github.com/1181631922/Recreation/blob/master/readme/start/start2.md)<br>
 ![效果展示图](https://github.com/1181631922/Recreation/blob/master/readme/start/start.gif)
+![效果展示图](https://github.com/1181631922/Recreation/blob/master/readme/start/start2.gif)
 
 
