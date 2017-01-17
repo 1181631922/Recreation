@@ -11,23 +11,58 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="5dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvMainItem"
+        <LinearLayout
+            android:id="@+id/layoutUser"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdvUserImg"
+                android:layout_width="35dp"
+                android:layout_height="35dp" />
+
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="测试" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="测试测试测试测试测试测试测试测试测试测试测试测试测试测试"
-            android:textSize="18dp" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/sdvMainItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvMainItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="测试测试测试测试测试测试测试测试测试测试测试测试测试测试"
+                android:textSize="18dp" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdvMainItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.fanyafeng.recreation.widget.media.IjkVideoView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:visibility="gone" />
+        </LinearLayout>
     </LinearLayout>
-
 </android.support.v7.widget.CardView>

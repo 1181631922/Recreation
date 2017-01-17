@@ -16,6 +16,8 @@ public class MainItemBean implements Parcelable {
     private String content; //text 有就显示没有就不显示
     private String mp4Url;  //mp4_url
     private int isGif;      //图片是gif为1，不是为0
+    private String userName;
+    private String userImg;
 
     public MainItemBean(JSONObject jsonObject) {
         JSONObject group = jsonObject.optJSONObject("group");
@@ -25,6 +27,13 @@ public class MainItemBean implements Parcelable {
             setTitle(group.optString("title"));
             setId(group.optLong("id"));
             setContent(group.optString("content"));
+
+            //用户信息
+            JSONObject user = group.optJSONObject("user");
+            if (user != null) {
+                setUserName(user.optString("name"));//发帖用户姓名
+                setUserImg(user.optString("avatar_url"));//发帖用户头像
+            }
 
             if (!StringUtil.isNullOrEmpty(group.optString("mp4_url"))) {
                 setMp4Url(group.optString("mp4_url"));
@@ -53,6 +62,8 @@ public class MainItemBean implements Parcelable {
         content = in.readString();
         mp4Url = in.readString();
         isGif = in.readInt();
+        userName = in.readString();
+        userImg = in.readString();
     }
 
     @Override
@@ -63,6 +74,8 @@ public class MainItemBean implements Parcelable {
         dest.writeString(content);
         dest.writeString(mp4Url);
         dest.writeInt(isGif);
+        dest.writeString(userName);
+        dest.writeString(userImg);
     }
 
     @Override
@@ -130,6 +143,22 @@ public class MainItemBean implements Parcelable {
         this.isGif = isGif;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserImg() {
+        return userImg;
+    }
+
+    public void setUserImg(String userImg) {
+        this.userImg = userImg;
+    }
+
     @Override
     public String toString() {
         return "MainItemBean{" +
@@ -139,6 +168,8 @@ public class MainItemBean implements Parcelable {
                 ", content='" + content + '\'' +
                 ", mp4Url='" + mp4Url + '\'' +
                 ", isGif=" + isGif +
+                ", userName='" + userName + '\'' +
+                ", userImg='" + userImg + '\'' +
                 '}';
     }
 }

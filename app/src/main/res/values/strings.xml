@@ -114,4 +114,5 @@
     <string name="title_activity_start">StartActivity</string>
     <string name="title_activity_first_start">FirstStartActivity</string>
     <string name="title_activity_pre_gifview">查看Gif图</string>
+    <string name="title_activity_main_detail">详情</string>
 </resources>

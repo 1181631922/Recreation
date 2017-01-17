@@ -109,7 +109,12 @@
             android:name=".activity.PreGifviewActivity"
             android:label="@string/title_activity_pre_gifview"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.MainDetailActivity"
+            android:label="@string/title_activity_main_detail"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

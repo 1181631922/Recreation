@@ -2,14 +2,17 @@ package com.fanyafeng.recreation.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fanyafeng.recreation.R;
+import com.fanyafeng.recreation.activity.MainDetailActivity;
 import com.fanyafeng.recreation.activity.PreGifviewActivity;
 import com.fanyafeng.recreation.activity.PreviewActivity;
 import com.fanyafeng.recreation.bean.MainItemBean;
@@ -17,6 +20,8 @@ import com.fanyafeng.recreation.network.Urls;
 import com.fanyafeng.recreation.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.fanyafeng.recreation.util.ControllerListenerUtil;
 import com.fanyafeng.recreation.util.DpPxConvert;
+import com.fanyafeng.recreation.util.FrescoAttributeUtil;
+import com.fanyafeng.recreation.util.FrescoUtil;
 import com.fanyafeng.recreation.util.MyUtils;
 import com.fanyafeng.recreation.util.StringUtil;
 
@@ -55,6 +60,20 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
         final MainItemBean mainItemBean = mainItemBeanList.get(position);
         mainViewHolder.tvMainItem.setText(mainItemBean.getContent());
         mainViewHolder.sdvMainItem.setVisibility(View.GONE);
+
+        //user
+        mainViewHolder.layoutUser.setVisibility(View.GONE);
+        if (!StringUtil.isNullOrEmpty(mainItemBean.getUserName())) {
+            mainViewHolder.tvUserName.setText(mainItemBean.getUserName());
+            mainViewHolder.layoutUser.setVisibility(View.VISIBLE);
+        } else {
+            mainViewHolder.layoutUser.setVisibility(View.GONE);
+        }
+        if (!StringUtil.isNullOrEmpty(mainItemBean.getUserImg())) {
+            FrescoUtil.loadPicOnNet(mainViewHolder.sdvUserImg, mainItemBean.getUserImg());
+            mainViewHolder.sdvUserImg.setHierarchy(FrescoAttributeUtil.setCircleRingHierarchy(context, Color.BLUE, 2f));
+        }
+
         if (!StringUtil.isNullOrEmpty(mainItemBean.getImage())) {
             mainViewHolder.sdvMainItem.setVisibility(View.VISIBLE);
             final String img = mainItemBean.getImage();
@@ -79,6 +98,12 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
         } else {
             mainViewHolder.sdvMainItem.setVisibility(View.GONE);
         }
+        mainViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, MainDetailActivity.class));
+            }
+        });
     }
 
     @Override
@@ -90,11 +115,17 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
 
         TextView tvMainItem;
         SimpleDraweeView sdvMainItem;
+        SimpleDraweeView sdvUserImg;
+        TextView tvUserName;
+        LinearLayout layoutUser;
 
         public MainViewHolder(View itemView) {
             super(itemView);
             tvMainItem = (TextView) itemView.findViewById(R.id.tvMainItem);
             sdvMainItem = (SimpleDraweeView) itemView.findViewById(R.id.sdvMainItem);
+            sdvUserImg = (SimpleDraweeView) itemView.findViewById(R.id.sdvUserImg);
+            tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
+            layoutUser = (LinearLayout) itemView.findViewById(R.id.layoutUser);
         }
     }
 }
