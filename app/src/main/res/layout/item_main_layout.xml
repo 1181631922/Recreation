@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.fanyafeng.recreation.widget.media.IjkVideoView
+        <VideoView
             android:id="@+id/videoMain"
             android:layout_width="match_parent"
             android:layout_height="30dp"

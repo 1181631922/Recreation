@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fanyafeng.recreation.R;
@@ -65,9 +66,10 @@ public class MainDetailActivity extends BaseActivity {
     private TextView tvUserName;
     private TextView tvMainItem;
     private SimpleDraweeView sdvMainItem;
-    private IjkVideoView videoMain;
+    private VideoView videoMain;
 
     private AndroidMediaController androidMediaController;
+    private boolean backPressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class MainDetailActivity extends BaseActivity {
 
     //初始化UI控件
     private void initView() {
+
         refreshMainDetail = (XRefreshView) findViewById(R.id.refreshMainDetail);
         rvMainDetail = (RecyclerView) findViewById(R.id.rvMainDetail);
         refreshMainDetail.setPullRefreshEnable(false);
@@ -102,14 +105,14 @@ public class MainDetailActivity extends BaseActivity {
         mainDetailAdapter.setCustomLoadMoreView(new XRefreshViewFooter(this));
         headerView = mainDetailAdapter.setHeaderView(R.layout.item_main_layout, rvMainDetail);
 
-        videoMain = (IjkVideoView) headerView.findViewById(R.id.videoMain);
-        videoMain.setMediaController(androidMediaController);
-        if (!StringUtil.isNullOrEmpty(mainItemBean.getMp4Url())) {
-            FitScreenUtil.FixScreenXY(videoMain, MyUtils.getScreenWidth(this), MyUtils.getScreenWidth(this) * 3 / 4);
-            videoMain.setVideoPath(mainItemBean.getMp4Url());
-            videoMain.start();
-            videoMain.setVisibility(View.VISIBLE);
-        }
+//        videoMain = (VideoView) headerView.findViewById(R.id.videoMain);
+//        videoMain.setMediaController(androidMediaController);
+//        if (!StringUtil.isNullOrEmpty(mainItemBean.getMp4Url())) {
+//            FitScreenUtil.FixScreenXY(videoMain, MyUtils.getScreenWidth(this), MyUtils.getScreenWidth(this) * 3 / 4);
+//            videoMain.setVideoPath(mainItemBean.getMp4Url());
+//            videoMain.start();
+//            videoMain.setVisibility(View.VISIBLE);
+//        }
 
         layoutItemMain = (LinearLayout) headerView.findViewById(R.id.layoutItemMain);
         layoutUser = (LinearLayout) headerView.findViewById(R.id.layoutUser);
@@ -173,6 +176,16 @@ public class MainDetailActivity extends BaseActivity {
         });
 
         new GetMainDetailTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     class GetMainDetailTask extends AsyncTask<String, String, String> {

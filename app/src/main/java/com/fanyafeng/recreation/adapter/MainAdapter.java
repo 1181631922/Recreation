@@ -74,6 +74,7 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
             mainViewHolder.sdvUserImg.setHierarchy(FrescoAttributeUtil.setCircleRingHierarchy(context, Color.BLUE, 2f));
         }
 
+        mainViewHolder.sdvMainItem.setVisibility(View.GONE);
         if (!StringUtil.isNullOrEmpty(mainItemBean.getImage())) {
             mainViewHolder.sdvMainItem.setVisibility(View.VISIBLE);
             final String img = mainItemBean.getImage();

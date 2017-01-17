@@ -10,8 +10,8 @@ import android.support.v7.app.AlertDialog;
  */
 public class Urls {
 
-    public final static String BASE_URL = "http://localhost:8080/recreation-1.0";
-//    public final static String BASE_URL = "http://60.205.223.7:8080/recreation-1.0";
+//    public final static String BASE_URL = "http://localhost:8080/recreation-1.0";
+    public final static String BASE_URL = "http://60.205.223.7:8080/recreation-1.0";
 
     //获取更新接口
     public final static String GET_NEW_VERSION = BASE_URL + "/version/hasNewVersion";
