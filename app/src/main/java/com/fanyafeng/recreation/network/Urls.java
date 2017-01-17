@@ -25,6 +25,12 @@ public class Urls {
     public final static String GET_NEW_APK = "http://60.205.223.7:8080/Recreation/app-release.apk";
 
 
+    //获取用户评论
+    public final static String GET_USER_DETAIL_START = "http://lf.snssdk.com/neihan/comments/?";
+//    group_id=54484601117&item_id=54484601117&count=20&offset=0" +
+
+    public final static String GET_USER_DETAIL_END = "&iid=7164180604&device_id=34822199408&ac=wifi&channel=baidu&aid=7&app_name=joke_essay&version_code=590&version_name=5.9.0&device_platform=android&ssmix=a&device_type=Nexus+5&device_brand=google&os_api=25&os_version=7.1&uuid=359250050588035&openudid=12645e537a2f0f25&manifest_version_code=590&resolution=1080*1776&dpi=480&update_version_code=5903";
+
     public final static String YINYUETAI = "http://mapiv2.yinyuetai.com/component/prefecture.json?&type=1";
     //    http://119.29.47.97/article/list/suggest?page=1&type=refresh&count=30&readarticles=[117917136,117916583]&rqcnt=13&r=519baad91478488978667
     //    http://m2.qiushibaike.com/article/list/suggest?page=1&type=refresh&count=30&readarticles=[117921665,117916048]&rqcnt=23&r=519baad91478488541893

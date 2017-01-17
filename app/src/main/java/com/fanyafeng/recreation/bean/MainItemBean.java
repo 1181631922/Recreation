@@ -18,6 +18,8 @@ public class MainItemBean implements Parcelable {
     private int isGif;      //图片是gif为1，不是为0
     private String userName;
     private String userImg;
+    private int videoWidth;
+    private int videoHeight;
 
     public MainItemBean(JSONObject jsonObject) {
         JSONObject group = jsonObject.optJSONObject("group");
@@ -51,6 +53,26 @@ public class MainItemBean implements Parcelable {
             if (large_image != null) {
                 setImage("http://p3.pstatp.com/" + large_image.optString("uri"));
             }
+
+            JSONObject videoH = group.optJSONObject("720p_video");
+            if (videoH != null) {
+                setVideoWidth(videoH.optInt("width"));
+                setVideoHeight(videoH.optInt("height"));
+            }
+
+            JSONObject videoM = group.optJSONObject("480p_video");
+            if (videoM != null) {
+                setVideoWidth(videoH.optInt("width"));
+                setVideoHeight(videoH.optInt("height"));
+            }
+
+            JSONObject videoS = group.optJSONObject("360p_video");
+            if (videoS != null) {
+                setVideoWidth(videoH.optInt("width"));
+                setVideoHeight(videoH.optInt("height"));
+            }
+
+
         }
     }
 
@@ -64,6 +86,8 @@ public class MainItemBean implements Parcelable {
         isGif = in.readInt();
         userName = in.readString();
         userImg = in.readString();
+        videoWidth = in.readInt();
+        videoHeight = in.readInt();
     }
 
     @Override
@@ -76,6 +100,8 @@ public class MainItemBean implements Parcelable {
         dest.writeInt(isGif);
         dest.writeString(userName);
         dest.writeString(userImg);
+        dest.writeInt(videoWidth);
+        dest.writeInt(videoHeight);
     }
 
     @Override
@@ -159,6 +185,22 @@ public class MainItemBean implements Parcelable {
         this.userImg = userImg;
     }
 
+    public int getVideoWidth() {
+        return videoWidth;
+    }
+
+    public void setVideoWidth(int videoWidth) {
+        this.videoWidth = videoWidth;
+    }
+
+    public int getVideoHeight() {
+        return videoHeight;
+    }
+
+    public void setVideoHeight(int videoHeight) {
+        this.videoHeight = videoHeight;
+    }
+
     @Override
     public String toString() {
         return "MainItemBean{" +
@@ -170,6 +212,8 @@ public class MainItemBean implements Parcelable {
                 ", isGif=" + isGif +
                 ", userName='" + userName + '\'' +
                 ", userImg='" + userImg + '\'' +
+                ", videoWidth=" + videoWidth +
+                ", videoHeight=" + videoHeight +
                 '}';
     }
 }

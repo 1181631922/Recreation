@@ -77,8 +77,7 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
         if (!StringUtil.isNullOrEmpty(mainItemBean.getImage())) {
             mainViewHolder.sdvMainItem.setVisibility(View.VISIBLE);
             final String img = mainItemBean.getImage();
-            ControllerListenerUtil.setControllerListener(mainViewHolder.sdvMainItem, img,
-                    (int) (MyUtils.getScreenWidth(context) - DpPxConvert.dip2px(context, 60)));
+            ControllerListenerUtil.setControllerListener(mainViewHolder.sdvMainItem, img,MyUtils.getScreenWidth(context));
             mainViewHolder.sdvMainItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -101,7 +100,9 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
         mainViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, MainDetailActivity.class));
+                Intent intent = new Intent(context, MainDetailActivity.class);
+                intent.putExtra("mainItemBean", mainItemBean);
+                context.startActivity(intent);
             }
         });
     }

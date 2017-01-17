@@ -9,11 +9,15 @@
     tools:showIn="@layout/activity_main_detail">
 
     <!--需要v4或者v7包，不过一般as创建的工程都默认存在,此处采用滑动嵌套布局，为了解决滑动冲突-->
-    <LinearLayout
+
+    <com.fanyafeng.recreation.refreshview.XRefreshView
+        android:id="@+id/refreshMainDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-
-    </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvMainDetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.fanyafeng.recreation.refreshview.XRefreshView>
 </RelativeLayout>
