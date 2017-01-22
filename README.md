@@ -21,8 +21,9 @@
 ![美食网站图片](https://github.com/1181631922/Recreation/blob/master/ScreenShots/food2.gif)
 ### 3.项目中首页内涵段子的获取
 [请戳我查看首页抓包介绍](https://github.com/1181631922/Recreation/blob/master/readme/mainpage/mainpage1.md)<br>
-这里对内涵段子的首页进行了抓包，我用的是charles进行的抓包，对http和https都可以，下面是展示结果，感觉速度有点慢在虚拟机，实体机感觉还可以。<br>
-![首页展示](https://github.com/1181631922/Recreation/blob/master/ScreenShots/videos1.gif)
+这里对内涵段子的首页进行了抓包，我用的是charles进行的抓包，对http和https都可以，~~下面是展示结果，~~这里更新了一下首页，有人反应看不懂啥意思，添加了一下详情页，下下面的图是现在的效果。感觉速度有点慢在虚拟机，实体机感觉还可以。<br>
+~~![首页展示](https://github.com/1181631922/Recreation/blob/master/ScreenShots/videos1.gif)~~
+![新首页展示](https://github.com/1181631922/Recreation/blob/master/readme/mainpage/mainpage.gif)
 ### 4.项目中视频列表及播放<br>
 我这里使用的是springmvc搭建的后台，数据时抓包音悦台的，声明没有商用，仅仅是个人技术研究，这里上一下客户端的截图吧。[戳这里查看服务器和客户端的交互](https://github.com/1181631922/Recreation/blob/master/readme/video/video1.md)<br>
 ![视频页面展示](https://github.com/1181631922/Recreation/blob/master/readme/video/videos2.gif)
