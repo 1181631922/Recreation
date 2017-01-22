@@ -267,7 +267,7 @@ public class MainActivity extends BaseActivity {
     //初始化数据
     private void initData() {
         //获取开屏图
-        FrescoDealPicUtil.download(this, "http://upload-images.jianshu.io/upload_images/2155432-43f1b0fe0916918d.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240");
+//        FrescoDealPicUtil.download(this, "http://upload-images.jianshu.io/upload_images/2155432-43f1b0fe0916918d.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240");
     }
 
     private boolean firstBack = false;

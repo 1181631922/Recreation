@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,13 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
     public void onBindViewHolder(MainViewHolder holder, int position, boolean isItem) {
         MainViewHolder mainViewHolder = holder;
         final MainItemBean mainItemBean = mainItemBeanList.get(position);
-        mainViewHolder.tvMainItem.setText(mainItemBean.getContent());
+        mainViewHolder.tvMainItem.setTextColor(Color.BLACK);
+        if (!StringUtil.isNullOrEmpty(mainItemBean.getMp4Url()) || !StringUtil.isNullOrEmpty(mainItemBean.getM3u8Url())) {
+            mainViewHolder.tvMainItem.setText(mainItemBean.getContent() + "\n请在详情页查看视频");
+            mainViewHolder.tvMainItem.setTextColor(Color.RED);
+        } else {
+            mainViewHolder.tvMainItem.setText(mainItemBean.getContent());
+        }
         mainViewHolder.sdvMainItem.setVisibility(View.GONE);
 
         //user
@@ -78,7 +85,7 @@ public class MainAdapter extends BaseRecyclerAdapter<MainAdapter.MainViewHolder>
         if (!StringUtil.isNullOrEmpty(mainItemBean.getImage())) {
             mainViewHolder.sdvMainItem.setVisibility(View.VISIBLE);
             final String img = mainItemBean.getImage();
-            ControllerListenerUtil.setControllerListener(mainViewHolder.sdvMainItem, img,MyUtils.getScreenWidth(context));
+            ControllerListenerUtil.setControllerListener(mainViewHolder.sdvMainItem, img, MyUtils.getScreenWidth(context));
             mainViewHolder.sdvMainItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

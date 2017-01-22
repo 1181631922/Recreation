@@ -9,8 +9,9 @@ import android.support.v7.app.AlertDialog;
  * Created by 365rili on 16/5/4.
  */
 public class Urls {
+//    http://img.blog.csdn.net/20161223204711048?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGFveWFuZzM2MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast
 
-//    public final static String BASE_URL = "http://localhost:8080/recreation-1.0";
+    //    public final static String BASE_URL = "http://localhost:8080/recreation-1.0";
     public final static String BASE_URL = "http://60.205.223.7:8080/recreation-1.0";
 
     //获取更新接口
@@ -24,6 +25,8 @@ public class Urls {
 
     public final static String GET_NEW_APK = "http://60.205.223.7:8080/Recreation/app-release.apk";
 
+    //分享group 加id
+    public final static String SHARE_GROUP = "http://m.neihanshequ.com/share/group/";
 
     //获取用户评论
     public final static String GET_USER_DETAIL_START = "http://lf.snssdk.com/neihan/comments/?";

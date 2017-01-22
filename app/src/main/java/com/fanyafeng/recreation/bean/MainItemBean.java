@@ -15,6 +15,7 @@ public class MainItemBean implements Parcelable {
     private long id;        //id
     private String content; //text 有就显示没有就不显示
     private String mp4Url;  //mp4_url
+    private String m3u8Url;
     private int isGif;      //图片是gif为1，不是为0
     private String userName;
     private String userImg;
@@ -43,6 +44,9 @@ public class MainItemBean implements Parcelable {
             JSONObject gifvideo = group.optJSONObject("gifvideo");
             if (gifvideo != null) {
                 setMp4Url(group.optString("mp4_url"));
+            }
+            if (!StringUtil.isNullOrEmpty(group.optString("m3u8_url"))) {
+                setM3u8Url(group.optString("m3u8_url"));
             }
 
             JSONObject middle_image = group.optJSONObject("middle_image");
@@ -83,6 +87,7 @@ public class MainItemBean implements Parcelable {
         id = in.readLong();
         content = in.readString();
         mp4Url = in.readString();
+        m3u8Url = in.readString();
         isGif = in.readInt();
         userName = in.readString();
         userImg = in.readString();
@@ -97,6 +102,7 @@ public class MainItemBean implements Parcelable {
         dest.writeLong(id);
         dest.writeString(content);
         dest.writeString(mp4Url);
+        dest.writeString(m3u8Url);
         dest.writeInt(isGif);
         dest.writeString(userName);
         dest.writeString(userImg);
@@ -161,6 +167,14 @@ public class MainItemBean implements Parcelable {
         this.mp4Url = mp4Url;
     }
 
+    public String getM3u8Url() {
+        return m3u8Url;
+    }
+
+    public void setM3u8Url(String m3u8Url) {
+        this.m3u8Url = m3u8Url;
+    }
+
     public int getIsGif() {
         return isGif;
     }
@@ -209,6 +223,7 @@ public class MainItemBean implements Parcelable {
                 ", id=" + id +
                 ", content='" + content + '\'' +
                 ", mp4Url='" + mp4Url + '\'' +
+                ", m3u8Url='" + m3u8Url + '\'' +
                 ", isGif=" + isGif +
                 ", userName='" + userName + '\'' +
                 ", userImg='" + userImg + '\'' +

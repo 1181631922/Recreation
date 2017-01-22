@@ -53,11 +53,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <VideoView
-            android:id="@+id/videoMain"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:visibility="gone" />
     </LinearLayout>
 
     <TextView

@@ -205,6 +205,7 @@ public class OneFragment extends BaseFragment {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
+                refreshMain.stopLoadMore();
                 try {
                     if (!StringUtil.isNullOrEmpty(s)) {
                         JSONObject jsonObject = new JSONObject(s);
@@ -220,7 +221,7 @@ public class OneFragment extends BaseFragment {
                                         mainItemBeanList.add(mainItemBean);
                                     }
                                     mainAdapter.notifyDataSetChanged();
-                                    refreshMain.stopLoadMore();
+
                                     return;
                                 }
                             }

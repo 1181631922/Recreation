@@ -2,9 +2,12 @@ package com.fanyafeng.recreation.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +16,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -34,6 +43,7 @@ import com.fanyafeng.recreation.util.ControllerListenerUtil;
 import com.fanyafeng.recreation.util.DpPxConvert;
 import com.fanyafeng.recreation.util.FitScreenUtil;
 import com.fanyafeng.recreation.util.FrescoAttributeUtil;
+import com.fanyafeng.recreation.util.FrescoDealPicUtil;
 import com.fanyafeng.recreation.util.FrescoUtil;
 import com.fanyafeng.recreation.util.MyUtils;
 import com.fanyafeng.recreation.util.StringUtil;
@@ -44,8 +54,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
@@ -66,10 +81,15 @@ public class MainDetailActivity extends BaseActivity {
     private TextView tvUserName;
     private TextView tvMainItem;
     private SimpleDraweeView sdvMainItem;
-    private VideoView videoMain;
+    private IjkVideoView videoMain;
 
-    private AndroidMediaController androidMediaController;
     private boolean backPressed;
+    private int current;
+    private RelativeLayout layoutVideoMain;
+    private TextView tvCurrentTime;
+    private TextView tvTotalTime;
+    private SeekBar seekBarVideo;
+    private RelativeLayout layoutController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +101,6 @@ public class MainDetailActivity extends BaseActivity {
             mainItemBean = getIntent().getParcelableExtra("mainItemBean");
             id = mainItemBean.getId();
         }
-        androidMediaController = new AndroidMediaController(this, false);
         initView();
         initData();
     }
@@ -89,6 +108,13 @@ public class MainDetailActivity extends BaseActivity {
 
     //初始化UI控件
     private void initView() {
+        IjkMediaPlayer.loadLibrariesOnce(null);
+        IjkMediaPlayer.native_profileBegin("libijkplayer.so");
+        layoutVideoMain = (RelativeLayout) findViewById(R.id.layoutVideoMain);
+        tvCurrentTime = (TextView) findViewById(R.id.tvCurrentTime);
+        tvTotalTime = (TextView) findViewById(R.id.tvTotalTime);
+        seekBarVideo = (SeekBar) findViewById(R.id.seekBarVideo);
+        layoutController = (RelativeLayout) findViewById(R.id.layoutController);
 
         refreshMainDetail = (XRefreshView) findViewById(R.id.refreshMainDetail);
         rvMainDetail = (RecyclerView) findViewById(R.id.rvMainDetail);
@@ -98,6 +124,37 @@ public class MainDetailActivity extends BaseActivity {
         rvMainDetail.setLayoutManager(new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false));
     }
 
+    Handler uiHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    if (videoMain.getDuration() > 0) {
+                        seekBarVideo.setMax(videoMain.getDuration());
+                        seekBarVideo.setProgress(videoMain.getCurrentPosition());
+                    }
+                    updateTextViewWithTimeFormat(tvCurrentTime, videoMain.getCurrentPosition() / 1000);
+                    updateTextViewWithTimeFormat(tvTotalTime, videoMain.getDuration() / 1000);
+                    uiHandler.sendEmptyMessageDelayed(0, 200);
+                    break;
+            }
+        }
+    };
+
+    private void updateTextViewWithTimeFormat(TextView textView, int second) {
+        int hh = second / 3600;
+        int mm = second % 3600 / 60;
+        int ss = second % 60;
+        String stringTemp = null;
+        if (0 != hh) {
+            stringTemp = String.format("%02d:%02d:%02d", hh, mm, ss);
+        } else {
+            stringTemp = String.format("%02d:%02d", mm, ss);
+        }
+        textView.setText(stringTemp);
+    }
+
     //初始化数据
     private void initData() {
         mainDetailAdapter = new MainDetailAdapter(this, mainDetailBeanList);
@@ -105,14 +162,23 @@ public class MainDetailActivity extends BaseActivity {
         mainDetailAdapter.setCustomLoadMoreView(new XRefreshViewFooter(this));
         headerView = mainDetailAdapter.setHeaderView(R.layout.item_main_layout, rvMainDetail);
 
-//        videoMain = (VideoView) headerView.findViewById(R.id.videoMain);
-//        videoMain.setMediaController(androidMediaController);
-//        if (!StringUtil.isNullOrEmpty(mainItemBean.getMp4Url())) {
-//            FitScreenUtil.FixScreenXY(videoMain, MyUtils.getScreenWidth(this), MyUtils.getScreenWidth(this) * 3 / 4);
-//            videoMain.setVideoPath(mainItemBean.getMp4Url());
-//            videoMain.start();
-//            videoMain.setVisibility(View.VISIBLE);
-//        }
+        videoMain = (IjkVideoView) findViewById(R.id.videoMain);
+
+        if (!StringUtil.isNullOrEmpty(mainItemBean.getMp4Url()) || !StringUtil.isNullOrEmpty(mainItemBean.getM3u8Url())) {
+
+            String videoUrl = StringUtil.isNullOrEmpty(mainItemBean.getMp4Url()) ? mainItemBean.getM3u8Url() : mainItemBean.getMp4Url();
+
+            FitScreenUtil.FixScreenXY(videoMain, MyUtils.getScreenWidth(this), MyUtils.getScreenWidth(this) * 9 / 16);
+            FitScreenUtil.FixScreenXY(layoutVideoMain, MyUtils.getScreenWidth(this), MyUtils.getScreenWidth(this) * 9 / 16);
+
+            videoMain.setVideoPath(videoUrl);
+            videoMain.start();
+            videoMain.setVisibility(View.VISIBLE);
+            uiHandler.sendEmptyMessageDelayed(0, 200);
+        } else {
+            layoutVideoMain.setVisibility(View.GONE);
+        }
+
 
         layoutItemMain = (LinearLayout) headerView.findViewById(R.id.layoutItemMain);
         layoutUser = (LinearLayout) headerView.findViewById(R.id.layoutUser);
@@ -176,16 +242,67 @@ public class MainDetailActivity extends BaseActivity {
         });
 
         new GetMainDetailTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        seekBarVideo.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                int seekPos = seekBar.getProgress();
+                videoMain.seekTo(seekPos);
+                videoMain.start();
+            }
+        });
+        layoutVideoMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (layoutController.isShown()) {
+                    layoutController.setVisibility(View.GONE);
+                } else {
+                    layoutController.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
+
 
     @Override
     public void onBackPressed() {
+        backPressed = true;
         super.onBackPressed();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (current > 0) {
+            videoMain.seekTo(current);
+            videoMain.start();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        if (backPressed || videoMain.isBackgroundPlayEnabled()) {
+            videoMain.stopPlayback();
+            videoMain.release(true);
+            videoMain.stopBackgroundPlay();
+        } else {
+            videoMain.stopBackgroundPlay();
+        }
+        current = videoMain.getCurrentPosition();
+        videoMain.pause();
+        IjkMediaPlayer.native_profileEnd();
     }
 
     class GetMainDetailTask extends AsyncTask<String, String, String> {
@@ -244,6 +361,43 @@ public class MainDetailActivity extends BaseActivity {
         protected String doInBackground(String... param) {
             return NetUtil.httpGetUtil(MainDetailActivity.this, Urls.GET_USER_DETAIL_START + "group_id=" + id + "&item_id=" + id + "&count=20&offset=" + page + Urls.GET_USER_DETAIL_END);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_base, menu);
+        //        默认隐藏setting按钮
+        if (toolbar != null) {
+            MenuItem menuItem = toolbar.getMenu().getItem(0);
+            if (menuItem != null) {
+                menuItem.setTitle("分享");
+                menuItem.setIcon(R.drawable.share_detail);
+                menuItem.setVisible(true);
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_settings:
+                //分享
+                share(mainItemBean.getContent() + "\n链接：" + Urls.SHARE_GROUP + mainItemBean.getId());
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void share(String content) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, content);
+        //自定义选择框的标题
+        startActivity(Intent.createChooser(shareIntent, "分享给好友："));
     }
 
 }

@@ -10,10 +10,60 @@
 
     <!--需要v4或者v7包，不过一般as创建的工程都默认存在,此处采用滑动嵌套布局，为了解决滑动冲突-->
 
+    <RelativeLayout
+        android:id="@+id/layoutVideoMain"
+        android:background="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.fanyafeng.recreation.widget.media.IjkVideoView
+            android:id="@+id/videoMain"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/layoutController"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#ee777777"
+            android:layout_alignBottom="@+id/videoMain"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvCurrentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="播放时间："
+                android:textColor="@android:color/white" />
+
+            <SeekBar
+                android:id="@+id/seekBarVideo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_toLeftOf="@+id/tvTotalTime"
+                android:layout_toRightOf="@+id/tvCurrentTime" />
+
+            <TextView
+                android:id="@+id/tvTotalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="总时间："
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
     <com.fanyafeng.recreation.refreshview.XRefreshView
         android:id="@+id/refreshMainDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layoutVideoMain">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvMainDetail"
