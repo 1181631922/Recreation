@@ -69,6 +69,7 @@ public class FourFragment extends BaseFragment {
     private RelativeLayout layoutWeather;
     private RelativeLayout layoutClearCache;
     private RelativeLayout layoutDonate;
+    private RelativeLayout layoutEmoticon;
 
     private int fileLength;
     private int DownedFileLength = 0;
@@ -144,6 +145,9 @@ public class FourFragment extends BaseFragment {
 
         layoutDonate = (RelativeLayout) getActivity().findViewById(R.id.layoutDonate);
         layoutDonate.setOnClickListener(this);
+
+        layoutEmoticon = (RelativeLayout) getActivity().findViewById(R.id.layoutEmoticon);
+        layoutEmoticon.setOnClickListener(this);
     }
 
     private void initData() {
@@ -176,7 +180,14 @@ public class FourFragment extends BaseFragment {
             case R.id.layoutWeather:
                 Intent weatherIntent = new Intent(getActivity(), WebViewActivity.class);
                 weatherIntent.putExtra("url", "http://e.weather.com.cn/d/index/101010100.shtml");
+//                weatherIntent.putExtra("url", "http://qiqu.uc.cn/?uc_param_str=frpfvedncpssntnwbipreime#!/index/index");
                 startActivity(weatherIntent);
+                break;
+            case R.id.layoutEmoticon:
+                Intent ucIntent = new Intent(getActivity(), WebViewActivity.class);
+                ucIntent.putExtra("url", "http://qiqu.uc.cn/?uc_param_str=frpfvedncpssntnwbipreime#!/index/index");
+                ucIntent.putExtra("isShowToolbar", false);
+                startActivity(ucIntent);
                 break;
             case R.id.layoutUpdate:
                 //添加在线更新

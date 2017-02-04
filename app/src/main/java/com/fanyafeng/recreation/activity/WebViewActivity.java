@@ -32,6 +32,7 @@ public class WebViewActivity extends BaseActivity implements CustomWebView.JSInt
     private CustomWebView webView;
     private String url;
     private ProgressBar progressBar;
+    private FloatingActionButton fabClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class WebViewActivity extends BaseActivity implements CustomWebView.JSInt
         //这里默认使用的是toolbar的左上角标题，如果需要使用的标题为中心的采用下方注释的代码，将此注释掉即可
         title = getString(R.string.title_activity_web_view);
         url = getIntent().getStringExtra("url");
+        isShowToolbar = getIntent().getBooleanExtra("isShowToolbar", true);
         initView();
         initData();
     }
@@ -61,6 +63,18 @@ public class WebViewActivity extends BaseActivity implements CustomWebView.JSInt
     //初始化UI控件
     @SuppressLint("JavascriptInterface")
     private void initView() {
+        fabClose = (FloatingActionButton) findViewById(R.id.fabClose);
+        if (isShowToolbar) {
+            fabClose.setVisibility(View.GONE);
+        } else {
+            fabClose.setVisibility(View.VISIBLE);
+        }
+        fabClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         progressBar.bringToFront();
         progressBar.setMax(100);
